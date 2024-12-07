@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/personal/repos/daniele821/github-website/downloads/installer.sh</title>
+<meta name="colorscheme" content="onedark"></meta>
+<style>
+* {font-family: monospace}
+body {background-color: #1a212e; color: #93a4c3}
+.-variable-parameter {color: #f65866}
+.-punctuation-delimiter {color: #6c7d9c}
+.-constant {color: #dd9046}
+.-punctuation-bracket {color: #6c7d9c}
+.-none {color: #93a4c3}
+.-comment {font-style: italic; color: #455574}
+.-spell {}
+.-string {color: #8bcd5b}
+.-number {color: #dd9046}
+.-keyword-directive {color: #c75ae8}
+.-keyword-conditional {color: #c75ae8}
+.-keyword-function {color: #c75ae8}
+.-operator {color: #93a4c3}
+.-keyword-import {color: #c75ae8}
+.-function {color: #41a7fc}
+.-function-builtin {color: #34bfd0}
+.-variable {color: #93a4c3}
+.-nospell {}
+.-punctuation-special {color: #f65866}
+.SpecialChar {color: #f65866}
+</style>
+</head>
+<body style="display: flex">
+<pre>
+<span class="-comment"><span class="-spell"><span class="-keyword-directive"><span class="-nospell">#!/bin/bash</span></span></span></span>
+
+<span class="-comment"><span class="-spell"># modify the script, in all places where 'TODO' is written</span></span>
+
+<span class="-keyword-function">function</span> <span class="-function">ask_user</span><span class="-punctuation-bracket">(</span><span class="-punctuation-bracket">)</span> <span class="-punctuation-bracket">{</span>
+    <span class="-function"><span class="-function-builtin">echo</span></span> <span class="-variable-parameter">-ne</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-constant">@</span></span>&quot;</span>
+    <span class="-function"><span class="-function-builtin">read</span></span> <span class="-variable-parameter">-r</span> <span class="-variable-parameter">answer</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span>
+    <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable">answer</span><span class="-punctuation-special">,,</span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-operator"><span class="-operator">==</span></span> <span class="-string">&quot;y&quot;</span> <span class="-punctuation-bracket">]]</span>
+<span class="-punctuation-bracket">}</span>
+<span class="-keyword-function">function</span> <span class="-function">exists</span><span class="-punctuation-bracket">(</span><span class="-punctuation-bracket">)</span> <span class="-punctuation-bracket">{</span>
+    <span class="-function"><span class="-function-builtin">command</span></span> <span class="-variable-parameter">-v</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-constant">@</span></span>&quot;</span> <span class="-operator">&amp;&gt;</span><span class="SpecialChar">/dev/null</span>
+<span class="-punctuation-bracket">}</span>
+
+<span class="-comment"><span class="-spell"># resolve requirements to run this script</span></span>
+<span class="-keyword-conditional">if</span> <span class="-operator">!</span> <span class="-function">exists</span> <span class="-variable-parameter">git</span> <span class="-operator">||</span> <span class="-operator">!</span> <span class="-function">exists</span> <span class="-variable-parameter">go</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
+    <span class="-keyword-conditional">if</span> <span class="-function">exists</span> <span class="-variable-parameter">dnf</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
+        <span class="-function">sudo</span> <span class="-variable-parameter">dnf</span> <span class="-variable-parameter">--assumeyes</span> <span class="-variable-parameter">install</span> <span class="-variable-parameter">git</span> <span class="-variable-parameter">golang</span> <span class="-operator">||</span> <span class="-function"><span class="-function-builtin">exit</span></span>
+    <span class="-keyword-conditional">else</span>
+        <span class="-function"><span class="-function-builtin">echo</span></span> <span class="-string">'unable to install required programs!'</span>
+        <span class="-function"><span class="-function-builtin">exit</span></span>
+    <span class="-keyword-conditional">fi</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span>
+<span class="-keyword-conditional">fi</span>
+
+<span class="-comment"><span class="-spell"># requirements</span></span>
+<span class="-keyword-import">export</span> <span class="-variable"><span class="-constant">GOPATH</span></span><span class="-operator">=</span><span class="-string">&quot;<span class="-punctuation-special">$(</span><span class="-function">mktemp</span> <span class="-variable-parameter">-d</span> <span class="-operator">2</span><span class="-operator">&gt;</span><span class="SpecialChar">/dev/null</span><span class="-punctuation-bracket"><span class="-punctuation-special">)</span></span>&quot;</span>
+
+<span class="-function"><span class="-function-builtin">echo</span></span> <span class="-variable-parameter">-n</span> <span class="-string">&quot;What branch do you want to use? &quot;</span>
+<span class="-function"><span class="-function-builtin">read</span></span> <span class="-variable-parameter">-r</span> <span class="-variable-parameter">answer</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span>
+<span class="-punctuation-bracket">[[</span> <span class="-operator"><span class="-operator">-z</span></span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-variable">answer</span></span>&quot;</span> <span class="-punctuation-bracket">]]</span> <span class="-operator">&amp;&amp;</span> <span class="-function"><span class="-function-builtin">exit</span></span> <span class="-number">1</span>
+<span class="-variable"><span class="-constant">BRANCH</span></span><span class="-operator">=</span><span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-variable">answer</span></span>&quot;</span>
+
+<span class="-comment"><span class="-spell"># run initialization scripts in dotfiles repository</span></span>
+<span class="-keyword-conditional">if</span> <span class="-function">ask_user</span> <span class="-string">&quot;Do you want to run init scripts? &quot;</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
+    <span class="-variable"><span class="-constant">TMP_DIR</span></span><span class="-operator">=</span><span class="-string">&quot;<span class="-punctuation-special">$(</span><span class="-function">mktemp</span> <span class="-variable-parameter">-d</span> <span class="-variable-parameter">/tmp/dotfilesXXXXXXXXXXXXXXXXX</span><span class="-punctuation-bracket"><span class="-punctuation-special">)</span></span>&quot;</span> <span class="-operator">&amp;&amp;</span>
+        <span class="-function">git</span> <span class="-variable-parameter">clone</span> <span class="-variable-parameter">https://github.com/daniele821/dotfiles</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">TMP_DIR</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-string"><span class="-variable-parameter">--branch=</span></span><span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">BRANCH</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-variable-parameter">--depth=1</span> <span class="-operator">&amp;&amp;</span>
+        <span class="-operator">!</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">TMP_DIR</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>/autosaver&quot;</span> <span class="-variable-parameter">run</span> <span class="-operator">&amp;&amp;</span> <span class="-function"><span class="-function-builtin">exit</span></span> <span class="-number">1</span>
+<span class="-keyword-conditional">fi</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span>
+
+<span class="-comment"><span class="-spell"># install git repos</span></span>
+<span class="-keyword-conditional">if</span> <span class="-function">ask_user</span> <span class="-string">&quot;Do you want to download git repos? &quot;</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
+    <span class="-comment"><span class="-spell"># hacky way to assure github is added to valid ssh servers</span></span>
+    <span class="-function">git</span> <span class="-variable-parameter">clone</span> <span class="-variable-parameter">git@daniele821.github.com:daniele821/dotfiles.git</span> <span class="-string">&quot;<span class="-punctuation-special">$(</span><span class="-function">mktemp</span> <span class="-variable-parameter">-d</span><span class="-punctuation-bracket"><span class="-punctuation-special">)</span></span>/temporary&quot;</span>
+
+    <span class="-variable"><span class="-constant">TMP_DIR</span></span><span class="-operator">=</span><span class="-string">&quot;<span class="-punctuation-special">$(</span><span class="-function">mktemp</span> <span class="-variable-parameter">-d</span> <span class="-variable-parameter">/tmp/dotfilesXXXXXXXXXXXXXXXXX</span><span class="-punctuation-bracket"><span class="-punctuation-special">)</span></span>&quot;</span> <span class="-operator">&amp;&amp;</span>
+        <span class="-function">git</span> <span class="-variable-parameter">clone</span> <span class="-variable-parameter">https://github.com/daniele821/dotfiles</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">TMP_DIR</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-string"><span class="-variable-parameter">--branch=</span></span><span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">BRANCH</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-variable-parameter">--depth=1</span> <span class="-operator">&amp;&amp;</span>
+        <span class="-operator">!</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">TMP_DIR</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>/scripts/git_repos/restore_git_repos.sh&quot;</span> <span class="-operator">&amp;&amp;</span> <span class="-function"><span class="-function-builtin">exit</span></span> <span class="-number">1</span>
+<span class="-keyword-conditional">fi</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span>
+
+</pre>
+</body>
+</html>

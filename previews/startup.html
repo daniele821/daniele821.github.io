@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>/personal/repos/daniele821/github-website/downloads/startup.sh</title>
+<meta name="colorscheme" content="onedark"></meta>
+<style>
+* {font-family: monospace}
+body {background-color: #1a212e; color: #93a4c3}
+.-keyword-directive {color: #c75ae8}
+.-punctuation-bracket {color: #6c7d9c}
+.-operator {color: #93a4c3}
+.-comment {font-style: italic; color: #455574}
+.-punctuation-delimiter {color: #6c7d9c}
+.-spell {}
+.SpecialChar {color: #f65866}
+.-nospell {}
+.-string {color: #8bcd5b}
+.-function {color: #41a7fc}
+</style>
+</head>
+<body style="display: flex">
+<pre>
+<span class="-comment"><span class="-spell"><span class="-keyword-directive"><span class="-nospell">#!/bin/bash</span></span></span></span>
+
+<span class="-punctuation-bracket">{</span>
+    <span class="-punctuation-bracket">{</span>
+        <span class="-function">date</span> <span class="-string">&quot;+waiting for connection: %H:%m:%S:%N&quot;</span>
+        <span class="-function">nm-online</span> <span class="-operator">&amp;&gt;</span><span class="SpecialChar">/dev/null</span>
+        <span class="-function">date</span> <span class="-string">&quot;+connection resolved (or failed): %H:%m:%S:%N&quot;</span>
+        <span class="-function">/personal/repos/daniele821/dotfiles/scripts/git_repos/update_git_repos.sh</span>
+        <span class="-function">date</span> <span class="-string">&quot;+git repos updated: %H:%m:%S:%N&quot;</span>
+    <span class="-punctuation-bracket">}</span> <span class="-operator">&gt;</span><span class="SpecialChar">/tmp/GIT_UPDATES.out</span> <span class="-punctuation-delimiter">&amp;</span>
+
+    <span class="-comment"><span class="-spell"># add more startups here</span></span>
+
+<span class="-punctuation-bracket">}</span> <span class="-operator">&amp;&gt;</span><span class="SpecialChar">/dev/null</span>
+
+</pre>
+</body>
+</html>
