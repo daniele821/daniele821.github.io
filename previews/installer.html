@@ -2,29 +2,32 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>/personal/repos/daniele821/github-website/previews/installer.sh</title>
+<title>/personal/repos/daniele821/github-website/downloads/installer.sh</title>
 <meta name="colorscheme" content="onedark"></meta>
 <style>
 * {font-family: monospace}
 body {background-color: #1a212e; color: #93a4c3}
 .-variable-parameter {color: #f65866}
+.-keyword-directive {color: #c75ae8}
 .-constant {color: #dd9046}
-.-punctuation-bracket {color: #6c7d9c}
-.-spell {}
+.DiagnosticUnderlineWarn {text-decoration-style: wavy; text-decoration-line: underline}
 .-comment {color: #455574; font-style: italic}
-.-punctuation-special {color: #f65866}
+.-spell {}
 .-string {color: #8bcd5b}
-.-number {color: #dd9046}
-.-keyword-function {color: #c75ae8}
-.-operator {color: #93a4c3}
+.-punctuation-bracket {color: #6c7d9c}
 .-punctuation-delimiter {color: #6c7d9c}
-.-keyword-conditional {color: #c75ae8}
+.-keyword-function {color: #c75ae8}
+.-number {color: #dd9046}
+.-punctuation-special {color: #f65866}
+.-operator {color: #93a4c3}
+.DiagnosticVirtualTextWarn {background-color: #26272b; color: #8f610d}
 .-function {color: #41a7fc}
-.-none {color: #93a4c3}
+.-nospell {}
+.-keyword-conditional {color: #c75ae8}
 .-function-builtin {color: #34bfd0}
 .-variable {color: #93a4c3}
-.-keyword-directive {color: #c75ae8}
-.-nospell {}
+.-none {color: #93a4c3}
+.-keyword-import {color: #c75ae8}
 .SpecialChar {color: #f65866}
 </style>
 </head>
@@ -44,16 +47,17 @@ body {background-color: #1a212e; color: #93a4c3}
 <span class="-punctuation-bracket">}</span>
 
 <span class="-comment"><span class="-spell"># resolve requirements to run this script</span></span>
-<span class="-keyword-conditional">if</span> <span class="-operator">!</span> <span class="-function">exists</span> <span class="-variable-parameter">git</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
-    <span class="-keyword-conditional">if</span> <span class="-function">exists</span> <span class="-variable-parameter">apt</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
-        <span class="-function">sudo</span> <span class="-variable-parameter">apt</span> <span class="-variable-parameter">install</span> <span class="-variable-parameter">git</span> <span class="-variable-parameter">-y</span>
-    <span class="-keyword-conditional">elif</span> <span class="-function">exists</span> <span class="-variable-parameter">dnf</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
-        <span class="-function">sudo</span> <span class="-variable-parameter">dnf</span> <span class="-variable-parameter">--assumeyes</span> <span class="-variable-parameter">install</span> <span class="-variable-parameter">git</span>
+<span class="-keyword-conditional">if</span> <span class="-operator">!</span> <span class="-function">exists</span> <span class="-variable-parameter">git</span> <span class="-operator">||</span> <span class="-operator">!</span> <span class="-function">exists</span> <span class="-variable-parameter">go</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
+    <span class="-keyword-conditional">if</span> <span class="-function">exists</span> <span class="-variable-parameter">dnf</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
+        <span class="-function">sudo</span> <span class="-variable-parameter">dnf</span> <span class="-variable-parameter">--assumeyes</span> <span class="-variable-parameter">install</span> <span class="-variable-parameter">git</span> <span class="-variable-parameter">golang</span> <span class="-operator">||</span> <span class="-function"><span class="-function-builtin">exit</span></span>
     <span class="-keyword-conditional">else</span>
-        <span class="-function"><span class="-function-builtin">echo</span></span> <span class="-string">'git is not installed'</span>
-        <span class="-function"><span class="-function-builtin">exit</span></span> <span class="-number">1</span>
-    <span class="-keyword-conditional">fi</span>
-<span class="-keyword-conditional">fi</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span>
+        <span class="-function"><span class="-function-builtin">echo</span></span> <span class="-string">'unable to install required programs!'</span>
+        <span class="-function"><span class="-function-builtin">exit</span></span>
+    <span class="-keyword-conditional">fi</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span>
+<span class="-keyword-conditional">fi</span>
+
+<span class="-comment"><span class="-spell"># requirements</span></span>
+<span class="-keyword-import">export</span> <span class="-variable"><span class="-constant"><span class="DiagnosticUnderlineWarn">GOPATH</span></span></span><span class="-operator">=</span><span class="-string">&quot;<span class="-punctuation-special">$(</span><span class="-function">mktemp</span> <span class="-variable-parameter">-d</span> <span class="-operator">2</span><span class="-operator">&gt;</span><span class="SpecialChar">/dev/null</span><span class="-punctuation-bracket"><span class="-punctuation-special">)</span></span>&quot;</span>     <span class="DiagnosticVirtualTextWarn">■</span><span class="DiagnosticVirtualTextWarn"> Declare and assign separately to avoid masking return values.</span>
 
 <span class="-function"><span class="-function-builtin">echo</span></span> <span class="-variable-parameter">-n</span> <span class="-string">&quot;What branch do you want to use? &quot;</span>
 <span class="-function"><span class="-function-builtin">read</span></span> <span class="-variable-parameter">-r</span> <span class="-variable-parameter">answer</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span>
