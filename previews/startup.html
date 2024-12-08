@@ -7,14 +7,17 @@
 <style>
 * {font-family: monospace}
 body {background-color: #1a212e; color: #93a4c3}
+.-variable-parameter {color: #f65866}
+.SpecialChar {color: #f65866}
+.-punctuation-delimiter {color: #6c7d9c}
+.-operator {color: #93a4c3}
 .-keyword-directive {color: #c75ae8}
 .-punctuation-bracket {color: #6c7d9c}
-.-operator {color: #93a4c3}
 .-comment {font-style: italic; color: #455574}
-.-punctuation-delimiter {color: #6c7d9c}
-.-spell {}
-.SpecialChar {color: #f65866}
+.-number {color: #dd9046}
 .-nospell {}
+.-spell {}
+.-keyword-conditional {color: #c75ae8}
 .-string {color: #8bcd5b}
 .-function {color: #41a7fc}
 </style>
@@ -26,10 +29,13 @@ body {background-color: #1a212e; color: #93a4c3}
 <span class="-punctuation-bracket">{</span>
     <span class="-punctuation-bracket">{</span>
         <span class="-function">date</span> <span class="-string">&quot;+waiting for connection: %H:%m:%S:%N&quot;</span>
-        <span class="-function">nm-online</span>
-        <span class="-function">date</span> <span class="-string">&quot;+connection resolved (or failed): %H:%m:%S:%N&quot;</span>
-        <span class="-function">/personal/repos/daniele821/dotfiles/scripts/git_repos/update_git_repos.sh</span>
-        <span class="-function">date</span> <span class="-string">&quot;+git repos updated: %H:%m:%S:%N&quot;</span>
+        <span class="-keyword-conditional">if</span> <span class="-function">nm-online</span> <span class="-variable-parameter">-t</span> <span class="-number">10</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
+            <span class="-function">date</span> <span class="-string">&quot;+connection resolved: %H:%m:%S:%N&quot;</span>
+            <span class="-function">/personal/repos/daniele821/dotfiles/scripts/git_repos/update_git_repos.sh</span>
+            <span class="-function">date</span> <span class="-string">&quot;+git repos updated: %H:%m:%S:%N&quot;</span>
+        <span class="-keyword-conditional">else</span>
+            <span class="-function">date</span> <span class="-string">&quot;+connection failed: %H:%m:%S:%N&quot;</span>
+        <span class="-keyword-conditional">fi</span>
     <span class="-punctuation-bracket">}</span> <span class="-operator">&gt;</span><span class="SpecialChar">/tmp/GIT_UPDATES.out</span> <span class="-punctuation-delimiter">&amp;</span>
 
     <span class="-comment"><span class="-spell"># add more startups here</span></span>
