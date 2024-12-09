@@ -7,17 +7,15 @@
 <style>
 * {font-family: monospace}
 body {background-color: #1a212e; color: #93a4c3}
-.-variable-parameter {color: #f65866}
 .SpecialChar {color: #f65866}
-.-punctuation-delimiter {color: #6c7d9c}
-.-operator {color: #93a4c3}
-.-keyword-directive {color: #c75ae8}
-.-punctuation-bracket {color: #6c7d9c}
-.-comment {font-style: italic; color: #455574}
-.-number {color: #dd9046}
-.-nospell {}
-.-spell {}
 .-keyword-conditional {color: #c75ae8}
+.-keyword-directive {color: #c75ae8}
+.-punctuation-delimiter {color: #6c7d9c}
+.-comment {font-style: italic; color: #455574}
+.-operator {color: #93a4c3}
+.-spell {}
+.-nospell {}
+.-punctuation-bracket {color: #6c7d9c}
 .-string {color: #8bcd5b}
 .-function {color: #41a7fc}
 </style>
@@ -29,7 +27,7 @@ body {background-color: #1a212e; color: #93a4c3}
 <span class="-punctuation-bracket">{</span>
     <span class="-punctuation-bracket">{</span>
         <span class="-function">date</span> <span class="-string">&quot;+waiting for connection: %H:%m:%S:%N&quot;</span>
-        <span class="-keyword-conditional">if</span> <span class="-function">nm-online</span> <span class="-variable-parameter">-t</span> <span class="-number">10</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
+        <span class="-keyword-conditional">if</span> <span class="-function">nm-online</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
             <span class="-function">date</span> <span class="-string">&quot;+connection resolved: %H:%m:%S:%N&quot;</span>
             <span class="-function">/personal/repos/daniele821/dotfiles/scripts/git_repos/update_git_repos.sh</span>
             <span class="-function">date</span> <span class="-string">&quot;+git repos updated: %H:%m:%S:%N&quot;</span>
