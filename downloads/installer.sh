@@ -3,7 +3,7 @@
 export BRANCH="${1}"
 function ask_user() {
     echo -n "$1 "
-    read -r answer
+    read -r answer </dev/tty
     [[ ${answer,,} == "y" ]]
 }
 function download() {
@@ -39,7 +39,7 @@ if [[ "$#" -gt 1 ]]; then
     [[ "${RUN_INIT}" == "y" ]] && run_init
     [[ "${RUN_GIT}" == "y" ]] && run_git
 else
-    [[ -z "${BRANCH}" ]] && read -p "Write branch name: " -r branch && BRANCH="$branch"
+    [[ -z "${BRANCH}" ]] && read -p "Write branch name: " -r branch </dev/tty && BRANCH="$branch"
     ask_user "Do you really want to run init scripts?" && run_init
     ask_user "Do you really want to download git repos?" && run_git
 fi
