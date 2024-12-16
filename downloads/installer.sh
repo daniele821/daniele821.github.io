@@ -24,6 +24,7 @@ function run_init() {
     ./dotfiles/autosaver run
 }
 function run_git() {
+    ask_user "Please add ssh keys to github, then press enter to continue..."
     download
     ./dotfiles/scripts/git_repos/restore_git_repos.sh
 }

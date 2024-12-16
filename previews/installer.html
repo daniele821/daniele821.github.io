@@ -8,25 +8,25 @@
 * {font-family: monospace}
 body {background-color: #1a212e; color: #93a4c3}
 .-variable-parameter {color: #f65866}
-.-punctuation-bracket {color: #6c7d9c}
 .-constant {color: #dd9046}
-.-none {color: #93a4c3}
-.-punctuation-delimiter {color: #6c7d9c}
-.-comment {font-style: italic; color: #455574}
+.-comment {color: #455574; font-style: italic}
+.-keyword-repeat {color: #c75ae8}
 .-nospell {}
+.-keyword-import {color: #c75ae8}
+.-keyword-function {color: #c75ae8}
 .-string {color: #8bcd5b}
 .-number {color: #dd9046}
-.-keyword-function {color: #c75ae8}
-.-keyword-import {color: #c75ae8}
-.-operator {color: #93a4c3}
+.-punctuation-delimiter {color: #6c7d9c}
+.SpecialChar {color: #f65866}
+.-punctuation-bracket {color: #6c7d9c}
 .-keyword-directive {color: #c75ae8}
 .-keyword-conditional {color: #c75ae8}
-.-keyword-repeat {color: #c75ae8}
-.SpecialChar {color: #f65866}
+.-operator {color: #93a4c3}
+.-spell {}
 .-function-builtin {color: #34bfd0}
 .-variable {color: #93a4c3}
+.-none {color: #93a4c3}
 .-punctuation-special {color: #f65866}
-.-spell {}
 .-function {color: #41a7fc}
 </style>
 </head>
@@ -58,6 +58,7 @@ body {background-color: #1a212e; color: #93a4c3}
     <span class="-function">./dotfiles/autosaver</span> <span class="-variable-parameter">run</span>
 <span class="-punctuation-bracket">}</span>
 <span class="-keyword-function">function</span> <span class="-function">run_git</span><span class="-punctuation-bracket">(</span><span class="-punctuation-bracket">)</span> <span class="-punctuation-bracket">{</span>
+    <span class="-function">ask_user</span> <span class="-string">&quot;Please add ssh keys to github, then press enter to continue...&quot;</span>
     <span class="-function">download</span>
     <span class="-function">./dotfiles/scripts/git_repos/restore_git_repos.sh</span>
 <span class="-punctuation-bracket">}</span>
