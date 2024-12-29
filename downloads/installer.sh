@@ -26,7 +26,7 @@ function run_init() {
 function run_git() {
     ask_user "Please add ssh keys to github, then press enter to continue..."
     download
-    git clone https://github.com/daniele821/dotfiles "$(mktemp -d /tmp/fix-ssh-keyXXXXXXXXXXXXXXXXX)"
+    git clone git@daniele821.github.com:daniele821/dotfiles.git "$(mktemp -d /tmp/fix-ssh-keyXXXXXXXXXXXXXXXXX)"
     ./dotfiles/scripts/git_repos/restore_git_repos.sh
 }
 
