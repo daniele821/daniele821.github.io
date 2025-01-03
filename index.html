@@ -24,9 +24,10 @@
 
 <body>
     run the following to do install operations
-    <pre>
+    <pre id="installer">
         curl https://daniele821.github.io/downloads/installer.sh | sh -s - fedora-kde init git
     </pre>
+    <button type="button" onclick="copy()">Copy</button>
     <h1>Downloads</h1>
     <ul>
         <li> <a href="downloads/installer.sh" download="installer.sh">Installer Script</a> </li>
@@ -38,5 +39,12 @@
         <li> <a href="previews/startup.html">Startup Script</a> </li>
     </ul>
 </body>
+
+<script>
+    function copy() {
+        const copyText = document.getElementById("installer").textContent.trim();
+        navigator.clipboard.writeText(copyText)
+    }
+</script>
 
 </html>
