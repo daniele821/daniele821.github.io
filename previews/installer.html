@@ -8,25 +8,25 @@
 * {font-family: monospace}
 body {background-color: #1a212e; color: #93a4c3}
 .-variable-parameter {color: #f65866}
+.-punctuation-delimiter {color: #6c7d9c}
 .-constant {color: #dd9046}
-.-keyword-repeat {color: #c75ae8}
-.-comment {color: #455574; font-style: italic}
-.-keyword-directive {color: #c75ae8}
-.-spell {}
-.-keyword-function {color: #c75ae8}
-.-keyword-import {color: #c75ae8}
+.-none {color: #93a4c3}
+.-comment {font-style: italic; color: #455574}
+.-nospell {}
+.-punctuation-special {color: #f65866}
 .-string {color: #8bcd5b}
 .-number {color: #dd9046}
+.-keyword-directive {color: #c75ae8}
 .-keyword-conditional {color: #c75ae8}
 .-operator {color: #93a4c3}
-.-punctuation-delimiter {color: #6c7d9c}
+.-keyword-repeat {color: #c75ae8}
+.-keyword-import {color: #c75ae8}
+.-keyword-function {color: #c75ae8}
 .SpecialChar {color: #f65866}
-.-punctuation-bracket {color: #6c7d9c}
-.-nospell {}
 .-function-builtin {color: #34bfd0}
 .-variable {color: #93a4c3}
-.-none {color: #93a4c3}
-.-punctuation-special {color: #f65866}
+.-spell {}
+.-punctuation-bracket {color: #6c7d9c}
 .-function {color: #41a7fc}
 </style>
 </head>
@@ -63,21 +63,27 @@ body {background-color: #1a212e; color: #93a4c3}
     <span class="-function">git</span> <span class="-variable-parameter">clone</span> <span class="-variable-parameter">git@daniele821.github.com:daniele821/dotfiles.git</span> <span class="-string">&quot;<span class="-punctuation-special">$(</span><span class="-function">mktemp</span> <span class="-variable-parameter">-d</span> <span class="-variable-parameter">/tmp/fix-ssh-keyXXXXXXXXXXXXXXXXX</span><span class="-punctuation-bracket"><span class="-punctuation-special">)</span></span>&quot;</span>
     <span class="-function">./dotfiles/scripts/git_repos/restore_git_repos.sh</span>
 <span class="-punctuation-bracket">}</span>
+<span class="-keyword-function">function</span> <span class="-function">run_reboot</span><span class="-punctuation-bracket">(</span><span class="-punctuation-bracket">)</span> <span class="-punctuation-bracket">{</span>
+    <span class="-function">ask_user</span> <span class="-string">&quot;Are you REALLY REALLY sure you want to reboot?&quot;</span> <span class="-operator">&amp;&amp;</span> <span class="-function">reboot</span>
+<span class="-punctuation-bracket">}</span>
 
 <span class="-keyword-conditional">if</span> <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-constant">#</span></span>&quot;</span> <span class="-operator"><span class="-operator">-gt</span></span> <span class="-number">1</span> <span class="-punctuation-bracket">]]</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
     <span class="-keyword-repeat">for</span> <span class="-variable">word</span> <span class="-keyword-conditional">in</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-constant">@</span></span>&quot;</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-repeat">do</span>
         <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-variable">word</span></span>&quot;</span> <span class="-operator"><span class="-operator">==</span></span> <span class="-string">&quot;init&quot;</span> <span class="-punctuation-bracket">]]</span> <span class="-operator">&amp;&amp;</span> <span class="-keyword-import">export</span> <span class="-variable"><span class="-constant">RUN_INIT</span></span><span class="-operator">=</span><span class="-string">y</span>
         <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-variable">word</span></span>&quot;</span> <span class="-operator"><span class="-operator">==</span></span> <span class="-string">&quot;git&quot;</span> <span class="-punctuation-bracket">]]</span> <span class="-operator">&amp;&amp;</span> <span class="-keyword-import">export</span> <span class="-variable"><span class="-constant">RUN_GIT</span></span><span class="-operator">=</span><span class="-string">y</span>
+        <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-variable">word</span></span>&quot;</span> <span class="-operator"><span class="-operator">==</span></span> <span class="-string">&quot;reboot&quot;</span> <span class="-punctuation-bracket">]]</span> <span class="-operator">&amp;&amp;</span> <span class="-keyword-import">export</span> <span class="-variable"><span class="-constant">RUN_REBOOT</span></span><span class="-operator">=</span><span class="-string">y</span>
     <span class="-keyword-repeat">done</span>
 <span class="-keyword-conditional">fi</span>
 
 <span class="-keyword-conditional">if</span> <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-constant">#</span></span>&quot;</span> <span class="-operator"><span class="-operator">-gt</span></span> <span class="-number">1</span> <span class="-punctuation-bracket">]]</span><span class="-punctuation-delimiter">;</span> <span class="-keyword-conditional">then</span>
     <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">RUN_INIT</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-operator"><span class="-operator">==</span></span> <span class="-string">&quot;y&quot;</span> <span class="-punctuation-bracket">]]</span> <span class="-operator">&amp;&amp;</span> <span class="-function">run_init</span>
     <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">RUN_GIT</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-operator"><span class="-operator">==</span></span> <span class="-string">&quot;y&quot;</span> <span class="-punctuation-bracket">]]</span> <span class="-operator">&amp;&amp;</span> <span class="-function">run_git</span>
+    <span class="-punctuation-bracket">[[</span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">RUN_REBOOT</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-operator"><span class="-operator">==</span></span> <span class="-string">&quot;y&quot;</span> <span class="-punctuation-bracket">]]</span> <span class="-operator">&amp;&amp;</span> <span class="-function">run_reboot</span>
 <span class="-keyword-conditional">else</span>
     <span class="-punctuation-bracket">[[</span> <span class="-operator"><span class="-operator">-z</span></span> <span class="-string">&quot;<span class="-none"><span class="-punctuation-special">${</span><span class="-variable"><span class="-constant">BRANCH</span></span><span class="-punctuation-bracket"><span class="-punctuation-special">}</span></span></span>&quot;</span> <span class="-punctuation-bracket">]]</span> <span class="-operator">&amp;&amp;</span> <span class="-function"><span class="-function-builtin">read</span></span> <span class="-variable-parameter">-p</span> <span class="-string">&quot;Write branch name: &quot;</span> <span class="-variable-parameter">-r</span> <span class="-variable-parameter">branch</span> <span class="-operator">&lt;</span><span class="SpecialChar">/dev/tty</span> <span class="-operator">&amp;&amp;</span> <span class="-variable"><span class="-constant">BRANCH</span></span><span class="-operator">=</span><span class="-string">&quot;<span class="-none"><span class="-punctuation-special">$</span><span class="-variable">branch</span></span>&quot;</span>
     <span class="-function">ask_user</span> <span class="-string">&quot;Do you really want to run init scripts?&quot;</span> <span class="-operator">&amp;&amp;</span> <span class="-function">run_init</span>
     <span class="-function">ask_user</span> <span class="-string">&quot;Do you really want to download git repos?&quot;</span> <span class="-operator">&amp;&amp;</span> <span class="-function">run_git</span>
+    <span class="-function">ask_user</span> <span class="-string">&quot;Do you really want to reboot?&quot;</span> <span class="-operator">&amp;&amp;</span> <span class="-function">run_reboot</span>
 <span class="-keyword-conditional">fi</span>
 
 </pre>
