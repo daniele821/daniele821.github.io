@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stream M3U8 Video</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+
+<body>
+
+    <h1>Watch Live Stream</h1>
+
+    <!-- Video Element -->
+    <video id="video" width="100%" controls>
+        Your browser does not support the video tag.
+    </video>
+
+    <script>
+        // Check if HLS.js is supported
+        if (Hls.isSupported()) {
+            var video = document.getElementById('video');
+            var hls = new Hls();
+
+            // Bind the M3U8 stream URL
+            hls.loadSource('https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8');
+
+            // Attach the HLS.js instance to the video element
+            hls.attachMedia(video);
+
+            // Start playing when ready
+            hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                video.play();
+            });
+        }
+        // If HLS.js is not supported, fallback to native video (for browsers like Safari that support HLS)
+        else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+            video.src = 'https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8';
+            video.addEventListener('loadedmetadata', function () {
+                video.play();
+            });
+        } else {
+            alert("Your browser doesn't support HLS streaming.");
+        }
+    </script>
+
+</body>
+
+</html>
