@@ -18,16 +18,23 @@
         a {
             color: #3391ff;
         }
+
+        pre {
+            display: inline-block;
+        }
     </style>
 </head>
 
 
 <body>
-    run the following to do install operations
+    <p>
+        run the following to do install operations
+    </p>
     <pre id="installer1">
         wget -q -O - https://daniele821.github.io/downloads/installer.sh | bash -s - kubuntu init git reboot
     </pre>
     <button type="button" onclick="copy('installer1')">Copy</button>
+    <br>
     <pre id="installer2">
         wget -q -O - https://daniele821.github.io/downloads/installer.sh | bash -s - fedora-kde init git reboot
     </pre>
