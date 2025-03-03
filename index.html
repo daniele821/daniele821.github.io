@@ -24,10 +24,14 @@
 
 <body>
     run the following to do install operations
-    <pre id="installer">
+    <pre id="installer1">
         wget -q -O - https://daniele821.github.io/downloads/installer.sh | bash -s - kubuntu init git reboot
     </pre>
-    <button type="button" onclick="copy()">Copy</button>
+    <button type="button" onclick="copy('installer1')">Copy</button>
+    <pre id="installer2">
+        wget -q -O - https://daniele821.github.io/downloads/installer.sh | bash -s - fedora-kde init git reboot
+    </pre>
+    <button type="button" onclick="copy('installer2')">Copy</button>
     <h1>Preview</h1>
     <ul>
         <li> <a href="previews/installer.html">Installer Script</a> </li>
@@ -36,8 +40,8 @@
 </body>
 
 <script>
-    function copy() {
-        const copyText = document.getElementById("installer").textContent.trim();
+    function copy(elementId) {
+        const copyText = document.getElementById(elementId).textContent.trim();
         navigator.clipboard.writeText(copyText)
     }
 </script>
