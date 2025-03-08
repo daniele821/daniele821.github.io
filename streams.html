@@ -23,7 +23,7 @@
             margin: 0 auto;
         }
 
-        .button-grid button {
+        .button-grid a {
             padding: 15px;
             font-size: 16px;
             color: #fff;
@@ -34,12 +34,17 @@
             transition: background-color 0.3s ease;
         }
 
-        .button-grid button:hover {
+        .button-grid a:hover {
             background-color: #0056b3;
         }
 
-        .button-grid button:active {
+        .button-grid a:active {
             background-color: #004080;
+        }
+
+        a {
+            text-decoration: none;
+            text-align: center;
         }
     </style>
 </head>
@@ -85,7 +90,6 @@
     </script>
 
     <div class="button-grid" id="buttons-container">
-        <button>Button 1</button>
     </div>
     <div id="video-container">
         <video id="video" width="100%" controls>
@@ -94,6 +98,9 @@
     </div>
 
     <script>
-
+        const buttons = document.getElementById("buttons-container")
+        for (const link of links) {
+            buttons.innerHTML += `<a href="?channel=${link.channel}">${link.name}</a>`
+        }
     </script>
 </body>
