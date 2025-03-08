@@ -98,10 +98,21 @@
     </div>
 
     <script>
-        // page auto-generation
+        const channel = new URLSearchParams(window.location.search).get('channel');
+        const channelData = get_channel_data(channel)
+        const video = document.getElementById("video-container")
         const buttons = document.getElementById("buttons-container")
-        for (const link of links) {
-            buttons.innerHTML += `<a href="?channel=${link.channel}">${link.name}</a>`
+
+        if (!channelData) {
+            video.style.display = "none"
+            for (const link of links) {
+                buttons.innerHTML += `<a href="?channel=${link.channel}">${link.name}</a>`
+            }
+        } else {
+            buttons.style.display = "none"
+            document.title = channelData.name + " Stream"
+            run_stream(channelData.url)
         }
+
     </script>
 </body>
