@@ -45,6 +45,35 @@
 </head>
 
 <body>
+    <script>
+        const links = [
+            {channel: "nove", name: "Nove", url: "https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8"},
+        ]
+
+        function run_stream(url) {
+            if (Hls.isSupported()) {
+                var video = document.getElementById('video');
+                var hls = new Hls();
+                // Bind the M3U8 stream URL
+                hls.loadSource(url);
+                // Attach the HLS.js instance to the video element
+                hls.attachMedia(video);
+                // Start playing when ready
+                hls.on(Hls.Events.MANIFEST_PARSED, function () {
+                    video.play();
+                });
+            }
+            // If HLS.js is not supported, fallback to native video (for browsers like Safari that support HLS)
+            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                video.addEventListener('loadedmetadata', function () {
+                    video.play();
+                });
+            } else {
+                alert("Your browser doesn't support HLS streaming.");
+            }
+        }
+    </script>
     <div class="button-grid" id="buttons-container">
         <button>Button 1</button>
         <button>Button 2</button>
@@ -58,38 +87,8 @@
         <button>Button 10</button>
     </div>
     <div id="video-container">
-        <!--Video Element -->
         <video id="video" width="100%" controls>
             Your browser does not support the video tag.
         </video>
-
-        <script>
-            // Check if HLS.js is supported
-            if (Hls.isSupported()) {
-                var video = document.getElementById('video');
-                var hls = new Hls();
-
-                // Bind the M3U8 stream URL
-                hls.loadSource('https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8');
-
-                // Attach the HLS.js instance to the video element
-                hls.attachMedia(video);
-
-                // Start playing when ready
-                hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    video.play();
-                });
-            }
-            // If HLS.js is not supported, fallback to native video (for browsers like Safari that support HLS)
-            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
-                video.src = 'https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8';
-                video.addEventListener('loadedmetadata', function () {
-                    video.play();
-                });
-            } else {
-                alert("Your browser doesn't support HLS streaming.");
-            }
-        </script>
-
     </div>
 </body>
