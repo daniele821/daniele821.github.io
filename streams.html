@@ -46,9 +46,18 @@
 
 <body>
     <script>
+        // data + utils
         const links = [
             {channel: "nove", name: "Nove", url: "https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8"},
         ]
+
+        function get_channel_data(channel) {
+            for (const link of links) {
+                if (link.channel === channel) {
+                    return link
+                }
+            }
+        }
 
         function run_stream(url) {
             if (Hls.isSupported()) {
@@ -74,21 +83,17 @@
             }
         }
     </script>
+
     <div class="button-grid" id="buttons-container">
         <button>Button 1</button>
-        <button>Button 2</button>
-        <button>Button 3</button>
-        <button>Button 4</button>
-        <button>Button 5</button>
-        <button>Button 6</button>
-        <button>Button 7</button>
-        <button>Button 8</button>
-        <button>Button 9</button>
-        <button>Button 10</button>
     </div>
     <div id="video-container">
         <video id="video" width="100%" controls>
             Your browser does not support the video tag.
         </video>
     </div>
+
+    <script>
+
+    </script>
 </body>
