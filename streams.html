@@ -8,6 +8,11 @@
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <title>TV Stream</title>
     <style>
+        img {
+            height: 20px;
+            float: left;
+        }
+
         body {
             margin: 0;
             padding: 20px;
@@ -112,7 +117,7 @@
         if (!channelData) {
             video.style.display = "none"
             for (const link of links) {
-                buttons.innerHTML += `<a href="?channel=${link.channel}">${link.name}</a>`
+                buttons.innerHTML += `<a href="?channel=${link.channel}"><img src="icons/${link.channel}.png"></img>${link.name}</a>`
             }
         } else {
             buttons.style.display = "none"
