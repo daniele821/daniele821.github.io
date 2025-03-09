@@ -3,6 +3,11 @@
 SCRIPT_PWD="$(realpath "${BASH_SOURCE[0]}")"
 SCRIPT_DIR="$(dirname "${SCRIPT_PWD}")"
 
+{
+    rm "${SCRIPT_DIR}/previews/"* "${SCRIPT_DIR}/previews/".*
+    mkdir -p "${SCRIPT_DIR}/previews"
+} &>/dev/null
+
 for ORIGINAL in "${SCRIPT_DIR}/downloads/"*; do
     ORIGINAL_BASE="$(basename "${ORIGINAL}")"
     ORIGINAL_EXT="${ORIGINAL_BASE%.*}"
