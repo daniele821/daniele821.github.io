@@ -26,6 +26,7 @@
             gap: 15px;
             max-width: 100%;
             margin: 0 auto;
+            padding-bottom: 10px;
         }
 
         .button-grid a {
@@ -118,10 +119,10 @@
         if (!channelData) {
             video.style.display = "none"
             for (const link of links) {
-                buttons.innerHTML += `<a href="?channel=${link.channel}"><img src="icons/${link.channel}.png"></img>${link.name}</a>`
+                buttons.innerHTML += `<a href="?channel=${link.channel}"><img src="icons/${link.channel}.png">${link.name}</a>`
             }
         } else {
-            buttons.style.display = "none"
+            buttons.innerHTML += `<a href="?"><img src="images/tv.png">Home</a>`
             document.title = channelData.name + " Stream"
             run_stream(channelData.url)
         }
