@@ -6,11 +6,8 @@ SCRIPT_DIR="$(dirname "${SCRIPT_PWD}")"
 JSON_FILE="${SCRIPT_DIR}/scripts.json"
 FILE_NAMES=()
 
-{
-    rm "${SCRIPT_DIR}/previews/"* "${SCRIPT_DIR}/previews/".*
-    mkdir -p "${SCRIPT_DIR}/previews"
-    mkdir -p "${SCRIPT_DIR}/.previews_original"
-} &>/dev/null
+mkdir -p "${SCRIPT_DIR}/previews"
+mkdir -p "${SCRIPT_DIR}/.previews_original"
 
 for ORIGINAL in "${SCRIPT_DIR}/downloads/"*; do
     ORIGINAL_BASE="$(basename "${ORIGINAL}")"
