@@ -6,6 +6,7 @@ SCRIPT_DIR="$(dirname "${SCRIPT_PWD}")"
 JSON_FILE="${SCRIPT_DIR}/scripts.json"
 FILE_NAMES=()
 TMP_DIR="$(mktemp -d)"
+TMP_DIR2="$(mktemp -d)"
 
 mkdir -p "${SCRIPT_DIR}/previews"
 mkdir -p "${SCRIPT_DIR}/.previews_original"
@@ -20,10 +21,12 @@ for ORIGINAL in "${SCRIPT_DIR}/downloads/"*; do
         cp "$ORIGINAL" "$OLD_VER"
     fi
     cp "$NEW_FILE" "${TMP_DIR}/"
+    cp "$OLD_VER" "${TMP_DIR2}/"
     FILE_NAMES+=("$ORIGINAL_EXT")
 done
 
 printf '%s\n' "${FILE_NAMES[@]}" | jq -R . | jq -s . >"$JSON_FILE"
 
-rm -rf "${SCRIPT_DIR}/previews/"
+rm -rf "${SCRIPT_DIR}/previews/" "${SCRIPT_DIR}/.previews_original/"
 mv "$TMP_DIR/" "${SCRIPT_DIR}/previews"
+mv "$TMP_DIR2/" "${SCRIPT_DIR}/.previews_original/"
