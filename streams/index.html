@@ -110,19 +110,34 @@
                 // Attach the HLS.js instance to the video element
                 hls.attachMedia(video);
                 // Start playing when ready
-                hls.on(Hls.Events.MANIFEST_PARSED, function () {
-                    video.play();
-                });
+                //hls.on(Hls.Events.MANIFEST_PARSED, function () { video.play(); });
             }
             // If HLS.js is not supported, fallback to native video (for browsers like Safari that support HLS)
             else if (video.canPlayType('application/vnd.apple.mpegurl')) {
                 video.src = url;
-                video.addEventListener('loadedmetadata', function () {
-                    video.play();
-                });
+                //video.addEventListener('loadedmetadata', function () {video.play();});
             } else {
                 alert("Your browser doesn't support HLS streaming.");
             }
+        }
+
+        function restore_volume(video) {
+            result = {}
+            cookies = document.cookie.split(";").map(i => {
+                cookie = i.split("=").map(i => i.trim())
+                result[cookie[0]] = cookie[1]
+            })
+            video.volume = parseFloat(result["volume"])
+            video.muted = result["muted"] !== "false"
+            console.log("cookie: ", result["volume"], result["muted"])
+            console.log("video:  ", video.volume, video.muted)
+        }
+
+        function save_volume_event(video) {
+            video.addEventListener("volumechange", function () {
+                document.cookie = `muted=${video.muted}`
+                document.cookie = `volume=${video.volume}`
+            })
         }
     </script>
 
@@ -136,19 +151,23 @@
     <script>
         const channel = new URLSearchParams(window.location.search).get('channel');
         const channelData = get_channel_data(channel)
-        const video = document.getElementById("video-container")
-        const buttons = document.getElementById("buttons-container")
+        const video_box = document.getElementById("video-container")
+        const buttons_box = document.getElementById("buttons-container")
+        const video = document.getElementById("video")
 
         if (!channelData) {
-            video.style.display = "none"
+            video_box.style.display = "none"
             for (const link of links) {
-                buttons.innerHTML += `<a href="?channel=${link.channel}"><img src="icons/${link.channel}.png">${link.name}</a>`
+                buttons_box.innerHTML += `<a href="?channel=${link.channel}"><img src="icons/${link.channel}.png">${link.name}</a>`
             }
         } else {
-            buttons.innerHTML += `<a href="?"><img src="images/tv.png">Home</a>`
+            buttons_box.innerHTML += `<a href="?"><img src="images/tv.png">Home</a>`
             document.title = channelData.name + " Stream"
             run_stream(channelData.url)
         }
+
+        restore_volume(video)
+        save_volume_event(video)
 
     </script>
 </body>
