@@ -127,8 +127,16 @@
                 cookie = i.split("=").map(i => i.trim())
                 result[cookie[0]] = cookie[1]
             })
-            video.volume = parseFloat(result["volume"])
-            video.muted = result["muted"] !== "false"
+            try {
+                video.volume = parseFloat(result["volume"])
+            } catch (err) {
+                console.log("unable to set volume: ", video)
+            }
+            try {
+                video.muted = result["muted"] !== "false"
+            } catch (err) {
+                console.log("unable to set muted: ", video)
+            }
             console.log("cookie: ", result["volume"], result["muted"])
             console.log("video:  ", video.volume, video.muted)
         }
