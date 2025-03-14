@@ -172,10 +172,10 @@
             buttons_box.innerHTML += `<a href="?"><img src="images/tv.png">Home</a>`
             document.title = channelData.name + " Stream"
             run_stream(channelData.url)
+            restore_volume(video)
+            save_volume_event(video)
         }
 
-        restore_volume(video)
-        save_volume_event(video)
 
     </script>
 </body>
