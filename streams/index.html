@@ -121,19 +121,23 @@
             }
         }
 
-        function restore_volume(video) {
+        function restore_volume(video, channel) {
             result = {}
             cookies = document.cookie.split(";").map(i => {
                 cookie = i.split("=").map(i => i.trim())
                 result[cookie[0]] = cookie[1]
             })
+            volumeCookie = result[`${channel}-volume`]
+            volumeCookie = volumeCookie === undefined ? "1" : volumeCookie
+            mutedCookie = result[`${channel}-muted`]
+            mutedCookie = mutedCookie === undefined ? "false" : mutedCookie
             try {
-                video.volume = parseFloat(result["volume"])
+                video.volume = parseFloat(volumeCookie)
             } catch (err) {
                 console.log("unable to set volume: ", video)
             }
             try {
-                video.muted = result["muted"] !== "false"
+                video.muted = result[`${channel}-muted`] === "true"
             } catch (err) {
                 console.log("unable to set muted: ", video)
             }
@@ -141,10 +145,10 @@
             console.log("video:  ", video.volume, video.muted)
         }
 
-        function save_volume_event(video) {
+        function save_volume_event(video, channel) {
             video.addEventListener("volumechange", function () {
-                document.cookie = `muted=${video.muted}`
-                document.cookie = `volume=${video.volume}`
+                document.cookie = `${channel}-muted=${video.muted}`
+                document.cookie = `${channel}-volume=${video.volume}`
             })
         }
     </script>
@@ -172,8 +176,8 @@
             buttons_box.innerHTML += `<a href="?"><img src="images/tv.png">Home</a>`
             document.title = channelData.name + " Stream"
             run_stream(channelData.url)
-            restore_volume(video)
-            save_volume_event(video)
+            restore_volume(video, channel)
+            save_volume_event(video, channel)
         }
 
 
