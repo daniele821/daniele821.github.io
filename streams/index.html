@@ -150,7 +150,7 @@
             } catch (err) {
                 console.log("unable to set muted: ", video)
             }
-            console.log("cookie: ", result["volume"], result["muted"])
+            console.log("cookie: ", result[`${channel}-volume`], result[`${channel}-muted`])
             console.log("video:  ", video.volume, video.muted)
         }
 
