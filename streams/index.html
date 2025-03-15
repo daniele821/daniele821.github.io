@@ -132,7 +132,18 @@
             }
         }
 
+        GLOBAL_COOKIE = true
+        function globalCookie(channel) {
+            res = channel
+            if (GLOBAL_COOKIE) {
+                res = "all"
+            }
+            console.log(res)
+            return res
+        }
+
         function restore_volume(video, channel) {
+            channel = globalCookie(channel)
             result = {}
             cookies = document.cookie.split(";").map(i => {
                 cookie = i.split("=").map(i => i.trim())
@@ -157,6 +168,7 @@
         }
 
         function save_volume_event(video, channel) {
+            channel = globalCookie(channel)
             video.addEventListener("volumechange", function () {
                 document.cookie = `${channel}-muted=${video.muted}`
                 document.cookie = `${channel}-volume=${video.volume}`
