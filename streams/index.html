@@ -162,17 +162,10 @@
 
         function save_volume_event(video, channel) {
             channel = globalCookie(channel)
-            const sync_channel = new BroadcastChannel('streaming-volume')
             video.addEventListener("volumechange", function () {
                 document.cookie = `${channel}-muted=${video.muted}`
                 document.cookie = `${channel}-volume=${video.volume}`
-                sync_channel.postMessage("volume-changed!")
-                console.log(document.cookie)
             })
-            sync_channel.onmessage = (event) => {
-                restore_volume(video, channel)
-                console.log(document.cookie)
-            }
         }
     </script>
 
