@@ -156,6 +156,17 @@
                 document.cookie = `video-volume=${video.volume}`
             })
         }
+
+        function sync_volume(video) {
+            const sync_channel = new BroadcastChannel("sync-streaming-volume")
+            video.addEventListener("volumechange", function () {
+                sync_channel.postMessage({volume: video.volume, muted: video.muted})
+            })
+            sync_channel.onmessage = (event) => {
+                video.volume = event.data.volume
+                video.muted = event.data.muted
+            }
+        }
     </script>
 
     <div class="button-grid" id="buttons-container"></div>
@@ -183,6 +194,7 @@
             run_stream(channelData.url)
             restore_volume(video)
             save_volume_event(video)
+            //sync_volume(video)
         }
 
 
