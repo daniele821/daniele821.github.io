@@ -151,7 +151,6 @@
         }
 
         function save_volume_event(video, channel) {
-            channel = globalCookie(channel)
             video.addEventListener("volumechange", function () {
                 document.cookie = `video-muted=${video.muted}`
                 document.cookie = `video-volume=${video.volume}`
