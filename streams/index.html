@@ -150,7 +150,7 @@
             } catch (err) { }
         }
 
-        function save_volume_event(video, channel) {
+        function save_volume_event(video) {
             video.addEventListener("volumechange", function () {
                 document.cookie = `video-muted=${video.muted}`
                 document.cookie = `video-volume=${video.volume}`
@@ -181,8 +181,8 @@
             buttons_box.innerHTML += `<a href="?"><img src="images/tv.png">Home</a>`
             document.title = channelData.name + " Stream"
             run_stream(channelData.url)
-            restore_volume(video, channel)
-            save_volume_event(video, channel)
+            restore_volume(video)
+            save_volume_event(video)
         }
 
 
