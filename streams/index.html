@@ -132,39 +132,29 @@
             }
         }
 
-        GLOBAL_COOKIE = true
-        function globalCookie(channel) {
-            res = channel
-            if (GLOBAL_COOKIE) {
-                res = "all"
-            }
-            return res
-        }
-
-        function restore_volume(video, channel) {
-            channel = globalCookie(channel)
+        function restore_volume(video) {
             result = {}
             cookies = document.cookie.split(";").map(i => {
                 cookie = i.split("=").map(i => i.trim())
                 result[cookie[0]] = cookie[1]
             })
-            volumeCookie = result[`${channel}-volume`]
+            volumeCookie = result[`video-volume`]
             volumeCookie = volumeCookie === undefined ? "1" : volumeCookie
-            mutedCookie = result[`${channel}-muted`]
+            mutedCookie = result[`video-muted`]
             mutedCookie = mutedCookie === undefined ? "false" : mutedCookie
             try {
                 video.volume = parseFloat(volumeCookie)
             } catch (err) { }
             try {
-                video.muted = result[`${channel}-muted`] === "true"
+                video.muted = result[`video-muted`] === "true"
             } catch (err) { }
         }
 
         function save_volume_event(video, channel) {
             channel = globalCookie(channel)
             video.addEventListener("volumechange", function () {
-                document.cookie = `${channel}-muted=${video.muted}`
-                document.cookie = `${channel}-volume=${video.volume}`
+                document.cookie = `video-muted=${video.muted}`
+                document.cookie = `video-volume=${video.volume}`
             })
         }
     </script>
