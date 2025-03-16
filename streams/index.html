@@ -143,37 +143,41 @@
         }
 
         function restore_volume(video, channel) {
-            channel = globalCookie(channel)
-            result = {}
-            cookies = document.cookie.split(";").map(i => {
-                cookie = i.split("=").map(i => i.trim())
-                result[cookie[0]] = cookie[1]
+            function restore(video, channel) {
+                channel = globalCookie(channel)
+                result = {}
+                cookies = document.cookie.split(";").map(i => {
+                    cookie = i.split("=").map(i => i.trim())
+                    result[cookie[0]] = cookie[1]
+                })
+                volumeCookie = result[`${channel}-volume`]
+                volumeCookie = volumeCookie === undefined ? "1" : volumeCookie
+                mutedCookie = result[`${channel}-muted`]
+                mutedCookie = mutedCookie === undefined ? "false" : mutedCookie
+                try {
+                    video.volume = parseFloat(volumeCookie)
+                } catch (err) {
+                    console.log("unable to set volume: ", video)
+                }
+                try {
+                    video.muted = result[`${channel}-muted`] === "true"
+                } catch (err) {
+                    console.log("unable to set muted: ", video)
+                }
+                console.log("cookie: ", result[`${channel}-volume`], result[`${channel}-muted`])
+                console.log("video:  ", video.volume, video.muted)
+            }
+            document.addEventListener("visibilitychange", function () {
+                if (document.visibilityState === "visible") {
+                    restore(video, channel)
+                }
             })
-            volumeCookie = result[`${channel}-volume`]
-            volumeCookie = volumeCookie === undefined ? "1" : volumeCookie
-            mutedCookie = result[`${channel}-muted`]
-            mutedCookie = mutedCookie === undefined ? "false" : mutedCookie
-            try {
-                video.volume = parseFloat(volumeCookie)
-            } catch (err) {
-                console.log("unable to set volume: ", video)
-            }
-            try {
-                video.muted = result[`${channel}-muted`] === "true"
-            } catch (err) {
-                console.log("unable to set muted: ", video)
-            }
-            console.log("cookie: ", result[`${channel}-volume`], result[`${channel}-muted`])
-            console.log("video:  ", video.volume, video.muted)
+            restore(video, channel)
         }
 
         function save_volume_event(video, channel) {
             channel = globalCookie(channel)
             video.addEventListener("volumechange", function () {
-                document.cookie = `${channel}-muted=${video.muted}`
-                document.cookie = `${channel}-volume=${video.volume}`
-            })
-            document.addEventListener("visibilitychange", function () {
                 document.cookie = `${channel}-muted=${video.muted}`
                 document.cookie = `${channel}-volume=${video.volume}`
             })
