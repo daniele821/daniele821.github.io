@@ -167,6 +167,29 @@
                 video.muted = event.data.muted
             }
         }
+
+        function add_shortcuts() {
+            document.addEventListener("keydown", function (event) {
+                const video = document.getElementById("video")
+                switch (event.key) {
+                    case "f": // Fullscreen
+                        if (DISPLAY) {
+                            if (!document.fullscreenElement) {
+                                video.requestFullscreen().catch(err => console.error(err))
+                            } else {
+                                document.exitFullscreen()
+                            }
+                        }
+                        break;
+                    case "k": // Play/Pause
+                        video.paused ? video.play() : video.pause()
+                        break
+                    case "m": // Mute/Unmute
+                        video.muted = !video.muted
+                        break
+                }
+            });
+        }
     </script>
 
     <div class="button-grid" id="buttons-container"></div>
@@ -183,12 +206,17 @@
         const buttons_box = document.getElementById("buttons-container")
         const video = document.getElementById("video")
 
+        let DISPLAY = false
+        add_shortcuts()
+
         if (!channelData) {
+            DISPLAY = false
             video_box.style.display = "none"
             for (const link of links) {
                 buttons_box.innerHTML += `<a href="?channel=${link.channel}"><img src="icons/${link.channel}.png">${link.name}</a>`
             }
         } else {
+            DISPLAY = true
             buttons_box.innerHTML += `<a href="?"><img src="images/tv.png">Home</a>`
             document.title = channelData.name + " Stream"
             run_stream(channelData.url)
