@@ -185,7 +185,9 @@
                         video.paused ? video.play() : video.pause()
                         break
                     case "m": // Mute/Unmute
-                        video.muted = !video.muted
+                        if (DISPLAY) {
+                            video.muted = !video.muted
+                        }
                         break
                 }
             });
