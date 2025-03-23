@@ -3,14 +3,61 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link href="css/style.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Centered Links with Images</title>
+    <style>
+        * {
+            background: #181a1b;
+            color: #e8e6e3;
+        }
+
+        a:hover {
+            color: #004daa;
+        }
+
+        a {
+            color: #3391ff;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .link-container {
+            display: flex;
+            align-items: center;
+            margin: 10px 0;
+            font-size: 200%;
+        }
+
+        .link-container img {
+            height: 24px;
+            /* Adjust as needed */
+            margin-right: 10px;
+        }
+    </style>
 </head>
 
 <body>
+    <div id="links"></div>
     <script>
-        window.location.href = "scripts"
+        const links = [
+            {name: "Scripts", img: "scripts/images/favicon.png", url: "scripts/index.html"},
+            {name: "Streams", img: "streams/images/tv.png", url: "streams/index.html"},
+        ]
+
+        const div_links = document.getElementById("links")
+        for (const link of links) {
+            console.log(link)
+            div_links.innerHTML += `<div class="link-container"><img src="${link.img}"><a href="${link.url}">${link.name}</a></div>`
+        }
     </script>
+
 </body>
 
 </html>
