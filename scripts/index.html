@@ -19,8 +19,10 @@
             color: #3391ff;
         }
 
-        pre {
+        p.installers {
             display: inline-block;
+            color: yellowgreen;
+            margin-right: 10px;
         }
     </style>
 </head>
@@ -28,16 +30,16 @@
 
 <body>
     <p>
-        run the following to do install operations
+        Run the following to do install operations:
     </p>
-    <pre id="installer1">
+    <p id="installer1" class="installers">
         wget -q -O - https://daniele821.github.io/scripts/downloads/installer.sh | bash -s - kubuntu init git reboot
-    </pre>
+    </p>
     <button type="button" onclick="copy('installer1')">Copy</button>
     <br>
-    <pre id="installer2">
+    <p id="installer2" class="installers">
         wget -q -O - https://daniele821.github.io/scripts/downloads/installer.sh | bash -s - fedora-kde init git reboot
-    </pre>
+    </p>
     <button type="button" onclick="copy('installer2')">Copy</button>
     <h1>Preview</h1>
     <ul id="scripts"></ul>
