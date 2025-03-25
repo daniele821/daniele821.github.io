@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="images/tv.png">
+    <link rel="icon" type="image/png" href="images/favicon.png">
     <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
     <title>TV Stream</title>
     <style>
@@ -231,7 +231,7 @@
             }
         } else {
             DISPLAY = true
-            buttons_box.innerHTML += `<a href="?"><img src="images/tv.png">Home</a>`
+            buttons_box.innerHTML += `<a href="?"><img src="images/favicon.png">Home</a>`
             document.title = channelData.name + " Stream"
             run_stream(channelData.url)
             restore_volume(video)
