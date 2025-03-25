@@ -8,7 +8,7 @@ JSON_FILE="${SCRIPT_DIR}/scripts.json"
 INDEX=0
 
 echo "[" >"$JSON_FILE"
-find "${SCRIPT_DIR}" -mindepth 2 -maxdepth 2 -type f -iname 'index.html' |
+find "${SCRIPT_DIR}" -mindepth 2 -maxdepth 2 -type f -iname 'index.html' | sort |
     while read -r path; do
         [[ "$INDEX" -ge 1 ]] && echo "," >>"$JSON_FILE"
         dir="$(dirname "$path")"
