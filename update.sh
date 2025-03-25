@@ -12,9 +12,10 @@ find "${SCRIPT_DIR}" -mindepth 2 -maxdepth 2 -type f -iname 'index.html' |
     while read -r path; do
         [[ "$INDEX" -ge 1 ]] && echo "," >>"$JSON_FILE"
         dir="$(dirname "$path")"
-        update_path="$dir/update.sh"
-        favicon_path="$dir/images/favicon.png"
         name="$(basename "$dir")"
+        update_path="$dir/update.sh"
+        favicon_path="$name/images/favicon.png"
+        path="$name/index.html"
         name="${name^}"
         echo "{\"name\":\"$name\", \"img\":\"$favicon_path\", \"url\":\"$path\"}" | jq -c >>"$JSON_FILE"
 
