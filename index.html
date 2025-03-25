@@ -47,16 +47,15 @@
 <body>
     <div id="links"></div>
     <script>
-        const links = [
-            {name: "Scripts", img: "scripts/images/favicon.png", url: "scripts/index.html"},
-            {name: "Streams", img: "streams/images/favicon.png", url: "streams/index.html"},
-        ]
-
         const div_links = document.getElementById("links")
-        for (const link of links) {
-            console.log(link)
-            div_links.innerHTML += `<div class="link-container"><img src="${link.img}"><a href="${link.url}">${link.name}</a></div>`
-        }
+        fetch('scripts.json')
+            .then(data => data.json())
+            .then(data => {
+                for (const link of data) {
+                    console.log(link)
+                    div_links.innerHTML += `<div class="link-container"><img src="${link.img}"><a href="${link.url}">${link.name}</a></div>`
+                }
+            })
     </script>
 
 </body>
