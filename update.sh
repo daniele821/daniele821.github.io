@@ -15,7 +15,7 @@ find "${SCRIPT_DIR}" -mindepth 2 -maxdepth 2 -type f -iname 'index.html' | sort 
         name="$(basename "$dir")"
         update_path="$dir/update.sh"
         favicon_path="$name/images/favicon.png"
-        path="$name/index.html"
+        path="$name"
         name="${name^}"
         echo "{\"name\":\"$name\", \"img\":\"$favicon_path\", \"url\":\"$path\"}" | jq -c >>"$JSON_FILE"
 
