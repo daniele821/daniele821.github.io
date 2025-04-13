@@ -25,7 +25,22 @@ for ORIGINAL in "${SCRIPT_DIR}/downloads/"*; do
     FILE_NAMES+=("$ORIGINAL_EXT")
 done
 
-printf '%s\n' "${FILE_NAMES[@]}" | jq -R . | jq -s . >"$JSON_FILE"
+{
+    echo -n "["
+    if [[ ${#FILE_NAMES[@]} -gt 0 ]]; then
+        echo -n "\"${FILE_NAMES[0]}\""
+        for name in "${FILE_NAMES[@]:1}"; do
+            echo -n ",\"${name}\""
+        done
+    fi
+    echo "]"
+} >"$JSON_FILE"
+
+if command -v "jq" &>/dev/null; then
+    TMPFILE="$(mktemp)"
+    jq . "$JSON_FILE" >"$TMPFILE"
+    mv "$TMPFILE" "$JSON_FILE"
+fi
 
 rm -rf "${SCRIPT_DIR}/previews/" "${SCRIPT_DIR}/.previews_original/"
 mv "$TMP_DIR/" "${SCRIPT_DIR}/previews"
