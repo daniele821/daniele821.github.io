@@ -26,3 +26,9 @@ find "${SCRIPT_DIR}" -mindepth 2 -maxdepth 2 -type f -iname 'index.html' | sort 
         ((INDEX++))
     done
 echo "]" >>"$JSON_FILE"
+
+if command -v "jq" &>/dev/null; then
+    TMPFILE="$(mktemp)"
+    jq . "$JSON_FILE" >"$TMPFILE"
+    mv "$TMPFILE" "$JSON_FILE"
+fi
