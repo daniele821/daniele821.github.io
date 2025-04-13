@@ -53,7 +53,7 @@
             .then(data => {
                 for (const link of data) {
                     console.log(link)
-                    div_links.innerHTML += `<div class="link-container"><img src="${link.img}"><a href="${link.url}">${link.name}</a></div>`
+                    div_links.innerHTML += `<div class="link-container"><img src="${link.url}/favicon.png"><a href="${link.url}">${link.name}</a></div>`
                 }
             })
     </script>

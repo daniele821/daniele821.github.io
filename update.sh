@@ -14,10 +14,9 @@ find "${SCRIPT_DIR}" -mindepth 2 -maxdepth 2 -type f -iname 'index.html' | sort 
         dir="$(dirname "$path")"
         name="$(basename "$dir")"
         update_path="$dir/update.sh"
-        favicon_path="$name/images/favicon.png"
         path="$name"
         name="${name^}"
-        echo "{\"name\":\"$name\", \"img\":\"$favicon_path\", \"url\":\"$path\"}" | jq -c >>"$JSON_FILE"
+        echo "{\"name\":\"$name\", \"url\":\"$path\"}" >>"$JSON_FILE"
 
         if [[ -x "$update_path" ]]; then
             echo "running script: $name"
