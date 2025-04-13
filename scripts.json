@@ -1,7 +1,17 @@
 [
-{"name":"Github","img":"github/images/favicon.png","url":"github"}
-,
-{"name":"Scripts","img":"scripts/images/favicon.png","url":"scripts"}
-,
-{"name":"Streams","img":"streams/images/favicon.png","url":"streams"}
+  {
+    "name": "Github",
+    "img": "github/images/favicon.png",
+    "url": "github"
+  },
+  {
+    "name": "Scripts",
+    "img": "scripts/images/favicon.png",
+    "url": "scripts"
+  },
+  {
+    "name": "Streams",
+    "img": "streams/images/favicon.png",
+    "url": "streams"
+  }
 ]
