@@ -41,18 +41,6 @@
         wget -q -O - https://daniele821.github.io/scripts/downloads/installer.sh | bash -s - fedora-kde init git reboot
     </p>
     <button type="button" onclick="copy('installer2')">Copy</button>
-    <h1>Preview</h1>
-    <ul id="scripts"></ul>
-    <script>
-        const scripts = document.getElementById("scripts")
-        fetch('scripts.json')
-            .then(data => data.json())
-            .then(data => {
-                for (const fileName of data) {
-                    scripts.innerHTML += `<li><a href="previews/${fileName}.html">${fileName} script</a></li>`
-                }
-            })
-    </script>
 </body>
 
 <script>
