@@ -19,10 +19,14 @@
             color: #3391ff;
         }
 
-        p.installers {
-            display: inline-block;
+        pre.installers {
             color: yellowgreen;
             margin-right: 10px;
+        }
+
+        .name {
+            display: inline-block;
+            padding-right: 20px;
         }
     </style>
 </head>
@@ -32,15 +36,16 @@
     <p>
         Run the following to do install operations:
     </p>
-    <p id="installer1" class="installers">
+    <p class="name">- FEDORA-KDE:</p>
+    <button type="button" onclick="copy('installer1')">Copy</button>
+    <pre id="installer1" class="installers">
         sudo dnf --assumeyes install git
         TMP_DIR="$(mktemp -d)"
         REPO_DIR="${TMP_DIR}/dotfiles"
         git clone https://github.com/daniele821/dotfiles "${REPO_DIR}"
         git -C "$REPO_DIR" switch fedora-kde
         BRANCH= "${TMP_DIR}/dotfiles/autosaver" run
-    </p>
-    <button type="button" onclick="copy('installer1')">Copy</button>
+    </pre>
 </body>
 
 <script>
