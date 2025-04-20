@@ -33,14 +33,14 @@
         Run the following to do install operations:
     </p>
     <p id="installer1" class="installers">
-        wget -q -O - https://daniele821.github.io/scripts/downloads/installer.sh | bash -s - kubuntu init git reboot
+        sudo dnf --assumeyes install git
+        TMP_DIR="$(mktemp -d)"
+        REPO_DIR="${TMP_DIR}/dotfiles"
+        git clone https://github.com/daniele821/dotfiles "${REPO_DIR}"
+        git -C "$REPO_DIR" switch fedora-kde
+        BRANCH= "${TMP_DIR}/dotfiles/autosaver" run
     </p>
     <button type="button" onclick="copy('installer1')">Copy</button>
-    <br>
-    <p id="installer2" class="installers">
-        wget -q -O - https://daniele821.github.io/scripts/downloads/installer.sh | bash -s - fedora-kde init git reboot
-    </p>
-    <button type="button" onclick="copy('installer2')">Copy</button>
 </body>
 
 <script>
