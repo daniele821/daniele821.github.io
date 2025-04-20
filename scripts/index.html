@@ -39,12 +39,13 @@
     <p class="name">- FEDORA-KDE:</p>
     <button type="button" onclick="copy('installer1')">Copy</button>
     <pre id="installer1" class="installers">
-        sudo dnf --assumeyes install git
-        TMP_DIR="$(mktemp -d)"
-        REPO_DIR="${TMP_DIR}/dotfiles"
-        git clone https://github.com/daniele821/dotfiles "${REPO_DIR}"
-        git -C "$REPO_DIR" switch fedora-kde
-        BRANCH= "${TMP_DIR}/dotfiles/autosaver" run
+        sudo dnf --assumeyes install git &&
+        TMP_DIR="$(mktemp -d)" &&
+        REPO_DIR="${TMP_DIR}/dotfiles" &&
+        git clone https://github.com/daniele821/dotfiles "${REPO_DIR}" &&
+        git -C "$REPO_DIR" switch fedora-kde &&
+        BRANCH= "${TMP_DIR}/dotfiles/autosaver" run ||
+        echo -e "\e[1;31mfailed to download and run init scripts\e[m"
     </pre>
 </body>
 
