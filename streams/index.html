@@ -199,9 +199,15 @@
                 }
             });
         }
+
+        function unhide_page() {
+            document.getElementById("no-js-text").style.display = "none"
+            document.getElementById("buttons-container").style.display = ""
+        }
     </script>
 
-    <div class="button-grid" id="buttons-container"></div>
+    <span id="no-js-text">Your browser does not support javascript!</span>
+    <div class="button-grid" id="buttons-container" style="display: none;"></div>
     <div id="video-container">
         <video id="video" width="100%" controls>
             Your browser does not support the video tag.
@@ -216,6 +222,7 @@
         const video = document.getElementById("video")
 
         let DISPLAY = false
+        unhide_page()
         add_shortcuts()
 
         if (!channelData) {
@@ -233,7 +240,6 @@
             save_volume_event(video)
             //sync_volume(video)
         }
-
 
     </script>
 </body>
