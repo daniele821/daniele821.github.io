@@ -222,11 +222,11 @@
             DISPLAY = false
             video_box.style.display = "none"
             for (const link of links) {
-                buttons_box.innerHTML += `<a href="?channel=${link.channel}"><img src="icons/${link.channel}.png">${link.name}</a>`
+                buttons_box.innerHTML += `<a href="?channel=${link.channel}"><img src="../icons/tv_${link.channel}.png">${link.name}</a>`
             }
         } else {
             DISPLAY = true
-            buttons_box.innerHTML += `<a href="?"><img src="favicon.png">Home</a>`
+            buttons_box.innerHTML += `<a href="?"><img src="../icons/streams.png">Home</a>`
             document.title = channelData.name + " Stream"
             run_stream(channelData.url)
             restore_volume(video)
