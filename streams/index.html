@@ -203,16 +203,18 @@
 
         function unhide_page() {
             document.getElementById("no-js-text").style.display = "none"
-            document.getElementById("buttons-container").style.display = ""
+            document.getElementById("only-js-body").style.display = ""
         }
     </script>
 
     <span id="no-js-text">Your browser does not support javascript!</span>
-    <div class="button-grid" id="buttons-container" style="display: none;"></div>
-    <div id="video-container">
-        <video id="video" width="100%" controls>
-            Your browser does not support the video tag.
-        </video>
+    <div id="only-js-body" style="display: none;">
+        <div class="button-grid" id="buttons-container"></div>
+        <div id="video-container">
+            <video id="video" width="100%" controls>
+                Your browser does not support the video tag.
+            </video>
+        </div>
     </div>
 
     <script>
