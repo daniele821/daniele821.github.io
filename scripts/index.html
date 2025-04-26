@@ -56,7 +56,7 @@
         Run the following to do install operations:
     </p>
     <p class="name">- FEDORA-KDE:</p>
-    <button type="button" onclick="copy('installer1')">Copy</button>
+    <button type="button" onclick="copy('installer1')" style="display: none;">Copy</button>
     <pre id="installer1" class="installers">
         TMP_DIR="$(mktemp -d)" &&
         ZIP_FILE="${TMP_DIR}/dotfiles.zip" &&
@@ -68,6 +68,9 @@
 </body>
 
 <script>
+    for (const button of document.getElementsByTagName("button")) {
+        button.style.display = ""
+    }
     function copy(elementId) {
         const copyText = document.getElementById(elementId).textContent.trim();
         navigator.clipboard.writeText(copyText)
