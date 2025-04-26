@@ -8,3 +8,4 @@
       ├── index.html 
       └── favicon.png
 ```
+- manually change `index.html` in root directory to include the new subwebsite (this is to avoid using js!)

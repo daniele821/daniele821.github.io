@@ -46,18 +46,18 @@
 
 <body>
     <div id="links"></div>
-    <script>
-        const div_links = document.getElementById("links")
-        fetch('scripts.json')
-            .then(data => data.json())
-            .then(data => {
-                for (const link of data) {
-                    console.log(link)
-                    div_links.innerHTML += `<div class="link-container"><img src="${link.url}/favicon.png"><a href="${link.url}">${link.name}</a></div>`
-                }
-            })
-    </script>
-
+    <div class="link-container">
+        <img src="github/favicon.png">
+        <a href="github">Github</a>
+    </div>
+    <div class="link-container">
+        <img src="scripts/favicon.png">
+        <a href="scripts">Scripts</a>
+    </div>
+    <div class="link-container">
+        <img src="streams/favicon.png">
+        <a href="streams">Streams</a>
+    </div>
 </body>
 
 </html>
