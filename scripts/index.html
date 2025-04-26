@@ -3,12 +3,20 @@
 
 <head>
     <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Personal</title>
     <link rel="icon" type="image/png" href="favicon.png">
     <style>
         * {
             background: #181a1b;
             color: #e8e6e3;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-size: 1em;
+            margin: 1rem;
         }
 
         a:hover {
@@ -21,12 +29,23 @@
 
         pre.installers {
             color: yellowgreen;
-            margin-right: 10px;
+            margin: 0.5em 0;
+            padding: 0.5em;
+            font-size: 0.95em;
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+
+        button {
+            font-size: 1em;
+            padding: 0.4em 1em;
+            margin-bottom: 1em;
         }
 
         .name {
             display: inline-block;
-            padding-right: 20px;
+            padding-right: 10px;
+            font-weight: bold;
         }
     </style>
 </head>
