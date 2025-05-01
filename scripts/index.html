@@ -62,7 +62,8 @@
         ZIP_FILE="${TMP_DIR}/dotfiles.zip" &&
         wget -O "$ZIP_FILE" https://github.com/daniele821/dotfiles/archive/refs/heads/fedora-kde.zip &&
         unzip -d "$TMP_DIR" "$ZIP_FILE" &&
-        BRANCH= "${TMP_DIR}/dotfiles-fedora-kde/autosaver" run ||
+        BRANCH= "${TMP_DIR}/dotfiles-fedora-kde/autosaver" run &&
+        BRANCH= "${TMP_DIR}/dotfiles-fedora-kde/autosaver" restoreall ||
         echo -e "\e[1;31mfailed to download and run init scripts\e[m"
     </pre>
 </body>
