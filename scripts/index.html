@@ -61,7 +61,7 @@
         sudo -v &&
         echo 'WARNING: make sure to connect usb drive with passwords...' &&
         sleep 5 &&
-        systemd-inhibit --what=idle:sleep sleep 3600 & &&
+        { systemd-inhibit --what=idle:sleep sleep 3600 & } &&
         TMP_DIR="$(mktemp -d)" &&
         ZIP_FILE="${TMP_DIR}/dotfiles.zip" &&
         wget -O "$ZIP_FILE" https://github.com/daniele821/dotfiles/archive/refs/heads/fedora-kde.zip &&
