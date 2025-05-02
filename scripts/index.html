@@ -60,7 +60,7 @@
     <pre id="installer1" class="installers">
         sudo -v &&
         echo 'WARNING: make sure to connect usb drive with passwords...' &&
-        sleep 5 &&
+        sleep 10 &&
         { systemd-inhibit --what=idle:sleep sleep 3600 & } &&
         TMP_DIR="$(mktemp -d)" &&
         ZIP_FILE="${TMP_DIR}/dotfiles.zip" &&
