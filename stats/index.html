@@ -211,6 +211,7 @@
             #data-container {
                 height: 35vh;
             }
+
             #map {
                 height: 65vh;
             }
@@ -286,10 +287,13 @@
                 let currentLayer = darkLayer;
                 currentLayer.addTo(map);
 
+                let marker, popupContent = ""
+
                 if (latitude && longitude) {
-                    L.marker([latitude, longitude])
+                    popupContent = `<b>${data.city}, ${data.country_name}</b><br>IP: ${data.ip}`;
+                    marker = L.marker([latitude, longitude])
                         .addTo(map)
-                        .bindPopup(`<b>${data.city}, ${data.country_name}</b><br>IP: ${data.ip}`)
+                        .bindPopup(popupContent)
                         .openPopup();
                 }
 
@@ -309,6 +313,11 @@
                         toggleBtn.textContent = 'Light Theme';
                         document.body.style.backgroundColor = '#1e1e1e';
                         document.body.style.color = '#ddd';
+                    }
+                    if (marker && popupContent) {
+                        setTimeout(() => {
+                            marker.openPopup();
+                        }, 100);
                     }
                 });
 
