@@ -45,14 +45,14 @@
             border: none;
             border-radius: 4px;
             cursor: pointer;
-            background-color: rgba(68, 68, 68, 0.8);
+            background-color: rgba(68, 68, 68, 1);
             color: #ddd;
             font-weight: bold;
             transition: background-color 0.3s;
         }
 
         #theme-toggle:hover {
-            background-color: rgba(102, 102, 102, 0.9);
+            background-color: rgba(102, 102, 102, 1);
         }
 
         .data-item {
@@ -86,7 +86,7 @@
         <div id="data-display"></div>
     </div>
     <div id="map">
-        <button id="theme-toggle">Switch to Light Theme</button>
+        <button id="theme-toggle">Light Theme</button>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
@@ -161,12 +161,12 @@
                         map.removeLayer(darkLayer);
                         lightLayer.addTo(map);
                         currentLayer = lightLayer;
-                        toggleBtn.textContent = 'Switch to Dark Theme';
+                        toggleBtn.textContent = 'Dark Theme';
                     } else {
                         map.removeLayer(lightLayer);
                         darkLayer.addTo(map);
                         currentLayer = darkLayer;
-                        toggleBtn.textContent = 'Switch to Light Theme';
+                        toggleBtn.textContent = 'Light Theme';
                     }
                 });
             })
