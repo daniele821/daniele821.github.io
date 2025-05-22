@@ -24,6 +24,25 @@
             overflow-y: auto;
             background-color: #2a2a2a;
             box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #theme-toggle {
+            margin-bottom: 15px;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: #444;
+            color: #ddd;
+            font-weight: bold;
+            align-self: flex-start;
+            transition: background-color 0.3s;
+        }
+
+        #theme-toggle:hover {
+            background-color: #666;
         }
 
         #map {
@@ -54,143 +73,19 @@
             margin-top: 0;
             color: #f0f0f0;
         }
-
-        #theme-toggle {
-            margin-bottom: 20px;
-            padding: 8px 12px;
-            background-color: #444;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-weight: bold;
-            transition: background-color 0.3s;
-        }
-
-        #theme-toggle:hover {
-            background-color: #555;
-        }
-
-        .light-theme #map {
-            background-color: #f0f0f0;
-        }
-
-        .light-theme {
-            background-color: #f5f5f5;
-            color: #333;
-        }
-
-        .light-theme #data-container {
-            background-color: #e0e0e0;
-            color: #333;
-        }
-
-        .light-theme .data-item {
-            background-color: #eee;
-        }
-
-        .light-theme .data-key {
-            color: #222;
-        }
-
-        .light-theme .data-value {
-            color: #444;
-        }
-
-        .light-theme h2 {
-            color: #222;
-        }
-
-        .light-theme #theme-toggle {
-            background-color: #666;
-            color: #fff;
-        }
     </style>
 </head>
 
 <body>
     <div id="data-container">
         <h2>IP Location Data</h2>
-        <button id="theme-toggle">Switch to Light Map</button>
+        <button id="theme-toggle">Switch to Light Theme</button>
         <div id="data-display"></div>
     </div>
     <div id="map"></div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
-        // Map tile providers
-        const tileProviders = {
-            dark: {
-                url: 'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}',
-                attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
-                minZoom: 2,
-                maxZoom: 16
-            },
-            light: {
-                url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-                attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-                minZoom: 2,
-                maxZoom: 19
-            }
-        };
-
-        let map;
-        let currentTileLayer;
-        let marker;
-        let isDarkTheme = true;
-
-        // Initialize the map with dark theme by default
-        function initMap(latitude, longitude) {
-            const bounds = [
-                [-90, -180],
-                [90, 180]
-            ];
-
-            map = L.map('map', {
-                minZoom: 2,
-                maxZoom: 16,
-                maxBounds: bounds,
-                maxBoundsViscosity: 1.0
-            }).setView([latitude, longitude], 13);
-
-            currentTileLayer = L.tileLayer(tileProviders.dark.url, {
-                attribution: tileProviders.dark.attribution,
-                minZoom: tileProviders.dark.minZoom,
-                maxZoom: tileProviders.dark.maxZoom
-            }).addTo(map);
-
-            if (latitude && longitude) {
-                marker = L.marker([latitude, longitude]).addTo(map)
-                    .bindPopup(`Your approximate location: ${latitude}, ${longitude}`)
-                    .openPopup();
-            }
-        }
-
-        // Toggle between light and dark themes
-        function toggleTheme() {
-            isDarkTheme = !isDarkTheme;
-
-            // Update the UI theme
-            document.body.classList.toggle('light-theme', !isDarkTheme);
-
-            // Update the button text
-            document.getElementById('theme-toggle').textContent =
-                isDarkTheme ? 'Switch to Light Map' : 'Switch to Dark Map';
-
-            // Update the map tiles
-            map.removeLayer(currentTileLayer);
-            const provider = isDarkTheme ? tileProviders.dark : tileProviders.light;
-            currentTileLayer = L.tileLayer(provider.url, {
-                attribution: provider.attribution,
-                minZoom: provider.minZoom,
-                maxZoom: provider.maxZoom
-            }).addTo(map);
-        }
-
-        // Set up event listener for the theme toggle button
-        document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
-
-        // Fetch IP data and initialize the map
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
@@ -216,15 +111,75 @@
 
                 const latitude = data.latitude || 0;
                 const longitude = data.longitude || 0;
-                initMap(latitude, longitude);
+
+                // Map bounds
+                const bounds = [
+                    [-90, -180],
+                    [90, 180]
+                ];
+
+                // Initialize map
+                const map = L.map('map', {
+                    minZoom: 2,
+                    maxZoom: 16,
+                    maxBounds: bounds,
+                    maxBoundsViscosity: 1.0
+                }).setView([latitude, longitude], 13);
+
+                // Dark and Light tile layers
+                const darkLayer = L.tileLayer(
+                    'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                    minZoom: 2,
+                    maxZoom: 16,
+                }
+                );
+
+                const lightLayer = L.tileLayer(
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    minZoom: 2,
+                    maxZoom: 16,
+                }
+                );
+
+                // Start with dark theme
+                let currentLayer = darkLayer;
+                currentLayer.addTo(map);
+
+                // Add marker if location available
+                if (latitude && longitude) {
+                    L.marker([latitude, longitude])
+                        .addTo(map)
+                        .bindPopup(`Your approximate location: ${latitude}, ${longitude}`)
+                        .openPopup();
+                }
+
+                // Theme toggle button
+                const toggleBtn = document.getElementById('theme-toggle');
+                toggleBtn.addEventListener('click', () => {
+                    if (currentLayer === darkLayer) {
+                        map.removeLayer(darkLayer);
+                        lightLayer.addTo(map);
+                        currentLayer = lightLayer;
+                        toggleBtn.textContent = 'Switch to Dark Theme';
+                    } else {
+                        map.removeLayer(lightLayer);
+                        darkLayer.addTo(map);
+                        currentLayer = darkLayer;
+                        toggleBtn.textContent = 'Switch to Light Theme';
+                    }
+                });
             })
             .catch(error => {
                 console.error('Error fetching IP data:', error);
                 document.getElementById('data-display').innerHTML =
                     '<div class="data-item">Error loading location data. Please try again later.</div>';
 
-                // Initialize map with default view if IP lookup fails
-                initMap(0, 0);
+                const map = L.map('map').setView([0, 0], 2);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
             });
     </script>
 </body>
