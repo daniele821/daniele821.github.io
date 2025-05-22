@@ -77,6 +77,56 @@
             margin-top: 0;
             color: #f0f0f0;
         }
+
+        .leaflet-control-zoom {
+            background-color: #333 !important;
+            box-shadow: 0 0 4px rgba(0, 0, 0, 0.5);
+            border: none;
+        }
+
+        .leaflet-control-zoom a {
+            background-color: #444 !important;
+            color: #ddd !important;
+            border: none;
+        }
+
+        .leaflet-control-zoom a:hover {
+            background-color: #555 !important;
+        }
+
+        /* Make the attribution footer dark */
+        .leaflet-control-attribution {
+            background-color: #333 !important;
+            color: #ccc !important;
+            border: none;
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+
+        .leaflet-control-attribution a {
+            color: #ccc !important;
+            text-decoration: none;
+        }
+
+        .leaflet-control-attribution a:hover {
+            text-decoration: underline;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background-color: #2a2a2a;
+            color: #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5);
+        }
+
+        .leaflet-popup-tip {
+            background-color: #2a2a2a;
+        }
+
+        .leaflet-popup-content {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+        }
     </style>
 </head>
 
@@ -151,7 +201,7 @@
                 if (latitude && longitude) {
                     L.marker([latitude, longitude])
                         .addTo(map)
-                        .bindPopup(`Your approximate location: ${latitude}, ${longitude}`)
+                        .bindPopup(`${data.city}, ${data.country_name}`)
                         .openPopup();
                 }
 
