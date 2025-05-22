@@ -2,35 +2,94 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/png" href="../icons/info.png">
-    <title>Document</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/png" href="../icons/info.png" />
+    <title>IP Info</title>
     <style>
         * {
-            background: #181a1b;
-            color: #e8e6e3;
-            font-family: sans-serif;
+            margin: 0;
+            padding: 0;
             box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            font-size: 1em;
-            margin: 1rem;
+            background: #181a1b;
+            color: #e8e6e3;
+            padding: 1.5rem;
         }
 
-        a:hover {
-            color: #004daa;
+        .ip-info-container {
+            background: linear-gradient(to bottom right, #1f2123, #2a2c2f);
+            border: 1px solid #2d2f31;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.6);
+            padding: 2rem;
+            max-width: 600px;
+            margin: 3rem auto;
         }
 
-        a {
-            color: #3391ff;
+        .ip-info-container h3 {
+            text-align: center;
+            color: #ffffff;
+            font-size: 1.6rem;
+            margin-bottom: 1.5rem;
+            border-bottom: 1px solid #2d2f31;
+            padding-bottom: 0.75rem;
         }
 
-        button {
-            font-size: 1em;
-            padding: 0.4em 1em;
-            margin-bottom: 1em;
+        .ip-info-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .ip-info-table tr {
+            border-bottom: 1px solid #2d2f31;
+            transition: background 0.2s;
+        }
+
+        .ip-info-table tr:hover {
+            background-color: #222425;
+        }
+
+        .ip-info-key {
+            width: 35%;
+            padding: 0.75rem 1rem 0.75rem 0;
+            color: #a8a095;
+            font-weight: bold;
+            border-right: 1px solid #2d2f31;
+            vertical-align: top;
+        }
+
+        .ip-info-value {
+            padding: 0.75rem 1rem;
+            color: #e8e6e3;
+            text-align: left;
+            word-break: break-word;
+        }
+
+        @media (max-width: 600px) {
+            .ip-info-key {
+                display: block;
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #2d2f31;
+            }
+
+            .ip-info-value {
+                display: block;
+                width: 100%;
+                padding-left: 0;
+            }
+
+            .ip-info-table tr {
+                display: block;
+                margin-bottom: 1rem;
+                border: 1px solid #2d2f31;
+                border-radius: 4px;
+                overflow: hidden;
+            }
         }
     </style>
 </head>
@@ -41,8 +100,8 @@
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
-                console.log(data)
-                let ipdiv = document.getElementById("ip")
+                console.log(data);
+                let ipdiv = document.getElementById("ip");
                 ipdiv.innerHTML = `
             <div class="ip-info-container">
                 <h3>Your IP Information</h3>
