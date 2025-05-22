@@ -290,7 +290,7 @@
                 let marker, popupContent = ""
 
                 if (latitude && longitude) {
-                    popupContent = `<b>${data.city}, ${data.country_name}</b><br>IP: ${data.ip}`;
+                    popupContent = `<b>${data.city}, ${data.country_name}</b><br>${data.ip}`;
                     marker = L.marker([latitude, longitude])
                         .addTo(map)
                         .bindPopup(popupContent)
