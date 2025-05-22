@@ -1,11 +1,64 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        * {
+            background: #181a1b;
+            color: #e8e6e3;
+            font-family: sans-serif;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-size: 1em;
+            margin: 1rem;
+        }
+
+        a:hover {
+            color: #004daa;
+        }
+
+        a {
+            color: #3391ff;
+        }
+
+        pre.installers {
+            color: yellowgreen;
+            margin: 0.5em 0;
+            padding: 0.5em;
+            font-size: 0.95em;
+            overflow-x: auto;
+            border-radius: 4px;
+        }
+
+        button {
+            font-size: 1em;
+            padding: 0.4em 1em;
+            margin-bottom: 1em;
+        }
+
+        .name {
+            display: inline-block;
+            padding-right: 10px;
+            font-weight: bold;
+        }
+    </style>
 </head>
+
 <body>
-    
+    <div id="ip">Your Ip address: </div>
+    <script>
+        fetch('https://api.ipify.org?format=json')
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("ip").innerText += data.ip
+            })
+            .catch(error => console.error("Error fetching IP:", error));
+    </script>
 </body>
+
 </html>
