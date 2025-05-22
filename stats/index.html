@@ -2,8 +2,8 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>IP Location Map</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <link rel="icon" type="image/png" href="../icons/info.png" />
@@ -28,27 +28,31 @@
             flex-direction: column;
         }
 
-        #theme-toggle {
-            margin-bottom: 15px;
-            padding: 8px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            background-color: #444;
-            color: #ddd;
-            font-weight: bold;
-            align-self: flex-start;
-            transition: background-color 0.3s;
-        }
-
-        #theme-toggle:hover {
-            background-color: #666;
-        }
-
         #map {
             flex: 1;
             height: 100%;
             background-color: #2e2e2e;
+            position: relative;
+            /* Important for absolute positioning inside */
+        }
+
+        #theme-toggle {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            z-index: 1000;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: rgba(68, 68, 68, 0.8);
+            color: #ddd;
+            font-weight: bold;
+            transition: background-color 0.3s;
+        }
+
+        #theme-toggle:hover {
+            background-color: rgba(102, 102, 102, 0.9);
         }
 
         .data-item {
@@ -79,10 +83,11 @@
 <body>
     <div id="data-container">
         <h2>IP Location Data</h2>
-        <button id="theme-toggle">Switch to Light Theme</button>
         <div id="data-display"></div>
     </div>
-    <div id="map"></div>
+    <div id="map">
+        <button id="theme-toggle">Switch to Light Theme</button>
+    </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <script>
@@ -112,13 +117,11 @@
                 const latitude = data.latitude || 0;
                 const longitude = data.longitude || 0;
 
-                // Map bounds
                 const bounds = [
                     [-90, -180],
                     [90, 180]
                 ];
 
-                // Initialize map
                 const map = L.map('map', {
                     minZoom: 2,
                     maxZoom: 16,
@@ -126,7 +129,6 @@
                     maxBoundsViscosity: 1.0
                 }).setView([latitude, longitude], 13);
 
-                // Dark and Light tile layers
                 const darkLayer = L.tileLayer(
                     'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
                     attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
@@ -143,11 +145,9 @@
                 }
                 );
 
-                // Start with dark theme
                 let currentLayer = darkLayer;
                 currentLayer.addTo(map);
 
-                // Add marker if location available
                 if (latitude && longitude) {
                     L.marker([latitude, longitude])
                         .addTo(map)
@@ -155,7 +155,6 @@
                         .openPopup();
                 }
 
-                // Theme toggle button
                 const toggleBtn = document.getElementById('theme-toggle');
                 toggleBtn.addEventListener('click', () => {
                     if (currentLayer === darkLayer) {
