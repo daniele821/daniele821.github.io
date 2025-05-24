@@ -342,7 +342,15 @@
                     dataContainer.style.display = isVisible ? 'none' : 'flex';
                     infoToggleBtn.textContent = isVisible ? 'Show Info' : 'Hide Info';
                     map.invalidateSize();
-                });
+                    setTimeout(() => {
+                        marker.openPopup();
+                    }, 100);
+                })
+                dataContainer.style.display = "none"
+                map.invalidateSize()
+                setTimeout(() => {
+                    marker.openPopup();
+                }, 100);
 
                 window.addEventListener('resize', () => {
                     map.invalidateSize();
