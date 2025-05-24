@@ -46,9 +46,9 @@
             position: relative;
         }
 
-        #theme-toggle {
+        #theme-toggle,
+        #info-toggle {
             position: absolute;
-            top: 10px;
             right: 10px;
             z-index: 1000;
             padding: 8px 12px;
@@ -62,7 +62,16 @@
             box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
         }
 
-        #theme-toggle:hover {
+        #theme-toggle {
+            top: 10px;
+        }
+
+        #info-toggle {
+            top: 50px;
+        }
+
+        #theme-toggle:hover,
+        #info-toggle:hover {
             background-color: rgba(102, 102, 102, 1);
             transform: translateY(-1px);
         }
@@ -178,16 +187,23 @@
                 height: 60vh;
             }
 
-            /* Keep theme toggle in top right for mobile */
-            #theme-toggle {
+            #theme-toggle,
+            #info-toggle {
                 top: 10px;
                 right: 10px;
                 left: auto;
+                margin-top: 0;
+            }
+
+            #info-toggle {
+                top: 50px;
             }
         }
 
         @media (max-width: 480px) {
-            #theme-toggle {
+
+            #theme-toggle,
+            #info-toggle {
                 font-size: 12px;
                 padding: 6px 10px;
             }
@@ -206,7 +222,6 @@
             }
         }
 
-        /* Mobile landscape specific adjustments */
         @media (max-width: 768px) and (orientation: landscape) {
             #data-container {
                 height: 35vh;
@@ -227,6 +242,7 @@
         </div>
         <div id="map">
             <button id="theme-toggle">Light Theme</button>
+            <button id="info-toggle">Hide Info</button>
         </div>
     </div>
 
@@ -235,8 +251,6 @@
         fetch('https://ipapi.co/json/')
             .then(response => response.json())
             .then(data => {
-                console.log(data);
-
                 const dataDisplay = document.getElementById('data-display');
                 for (const [key, value] of Object.entries(data)) {
                     const item = document.createElement('div');
@@ -287,7 +301,7 @@
                 let currentLayer = darkLayer;
                 currentLayer.addTo(map);
 
-                let marker, popupContent = ""
+                let marker, popupContent = "";
 
                 if (latitude && longitude) {
                     popupContent = `<b>${data.city}, ${data.country_name}</b><br>${data.ip}`;
@@ -321,7 +335,15 @@
                     }
                 });
 
-                // Handle window resize
+                const infoToggleBtn = document.getElementById('info-toggle');
+                const dataContainer = document.getElementById('data-container');
+                infoToggleBtn.addEventListener('click', () => {
+                    const isVisible = dataContainer.style.display !== 'none';
+                    dataContainer.style.display = isVisible ? 'none' : 'flex';
+                    infoToggleBtn.textContent = isVisible ? 'Show Info' : 'Hide Info';
+                    map.invalidateSize();
+                });
+
                 window.addEventListener('resize', () => {
                     map.invalidateSize();
                 });
