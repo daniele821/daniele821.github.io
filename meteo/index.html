@@ -48,6 +48,13 @@
         <iframe id="windyMap" src="https://embed.windy.com/embed2.html?zoom=10&overlay=radar"
             onload="document.getElementById('loading').style.display='none'; this.style.display='block';">
         </iframe>
+        <script>
+            fetch("https://ipapi.co/json/")
+                .then(data => data.json())
+                .then(data => {
+                    document.getElementById("windyMap").src = `https://embed.windy.com/embed2.html?lat=${data.latitude}&lon=${data.longitude}&zoom=10&overlay=radar`
+                })
+        </script>
     </div>
 </body>
 
