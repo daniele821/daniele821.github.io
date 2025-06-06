@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="../icons/streams.png">
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+    <title>TV Stream</title>
+    <style>
+        img {
+            width: 20px;
+            float: left;
+            position: relative;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        #video {
+            width: 100%;
+            height: calc(100vh - 110px);
+            /*background-color: black;*/
+            object-fit: contain;
+            min-width: 200px;
+            min-height: 200px;
+            max-width: 100vw;
+            max-height: 100vh;
+        }
+
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #1e2122;
+            color: whitesmoke;
+        }
+
+        .button-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            max-width: 100%;
+            margin: 0 auto;
+            padding-bottom: 10px;
+        }
+
+        .button-grid a {
+            padding: 15px;
+            font-size: 16px;
+            color: #fff;
+            background-color: #0062cc;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button-grid a:hover {
+            background-color: #0040b3;
+        }
+
+        .button-grid a:active {
+            background-color: #003080;
+        }
+
+        a {
+            text-decoration: none;
+            text-align: center;
+        }
+    </style>
+</head>
+
+<body>
+    <script>
+        // data + utils
+        const links = [
+            {channel: "rai1", name: "Rai 1", url: "https://dash2.antik.sk/live/test_rai_uno_tizen/playlist.m3u8"},
+            {channel: "rai3", name: "Rai 3", url: "https://dash2.antik.sk/live/test_rai_tre_tizen/playlist.m3u8"},
+            {channel: "rete4", name: "Rete 4", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-r4/r4-clr.isml/index.m3u8"},
+            {channel: "canale5", name: "Canale 5", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-c5/c5-clr.isml/index.m3u8"},
+            {channel: "italia1", name: "Italia 1", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-i1/i1-clr.isml/index.m3u8"},
+            {channel: "la7", name: "La 7", url: "https://d3749synfikwkv.cloudfront.net/v1/master/3722c60a815c199d9c0ef36c5b73da68a62b09d1/cc-74ylxpgd78bpb/Live.m3u8"},
+            {channel: "tv8", name: "Tv 8", url: "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11223/tv8web/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d"},
+            {channel: "nove", name: "Nove", url: "https://amg16146-wbdi-amg16146c1-samsung-it-1831.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-nove-samsungit/playlist.m3u8"},
+            {channel: "mediaset20", name: "Mediaset 20", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-lb/lb-clr.isml/index.m3u8"},
+            {channel: "iris", name: "Iris", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-ki/ki-clr.isml/index.m3u8"},
+            {channel: "cielo", name: "Cielo", url: "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/11219/cieloweb/master.m3u8?hdnea=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d"},
+            {channel: "27", name: "27", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-ts/ts-clr.isml/index.m3u8"},
+            {channel: "tv2000", name: "TV 2000", url: "https://hls-live-tv2000.akamaized.net/hls/live/2028510/tv2000/master.m3u8"},
+            {channel: "la7d", name: "La7d", url: "https://viamotionhsi.netplus.ch/live/eds/la7d/browser-HLS8/la7d.m3u8"},
+            {channel: "realtime", name: "Real Time", url: "https://amg16146-wbdi-amg16146c2-samsung-it-1835.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-realtime-samsungit/playlist.m3u8"},
+            {channel: "foodnetwork", name: "Food Network", url: "https://amg16146-wbdi-amg16146c3-samsung-it-1836.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-foodnetwork-samsungit/playlist.m3u8"},
+            {channel: "cine34", name: "Cine34", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-b6/b6-clr.isml/index.m3u8"},
+            {channel: "focus", name: "Focus", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-fu/fu-clr.isml/index.m3u8"},
+            {channel: "rtl102.5", name: "RTL 102.5", url: "https://dd782ed59e2a4e86aabf6fc508674b59.msvdn.net/live/S97044836/tbbP8T1ZRPBL/playlist.m3u8"},
+            {channel: "warnertv", name: "Warner TV", url: "https://amg16146-wbdi-amg16146c4-samsung-it-1837.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-warnertv-samsungit/playlist.m3u8"},
+            {channel: "giallo", name: "Giallo", url: "https://amg16146-wbdi-amg16146c5-samsung-it-1838.playouts.now.amagi.tv/playlist/amg16146-warnerbrosdiscoveryitalia-giallo-samsungit/playlist.m3u8"},
+            {channel: "topcrime", name: "Top Crime", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-lt/lt-clr.isml/index.m3u8"},
+            {channel: "italia2", name: "Italia 2", url: "https://live02-seg.msf.cdn.mediaset.net/live/ch-i2/i2-clr.isml/index.m3u8"},
+            {channel: "skytg24", name: "Sky TG24", url: "https://hlslive-web-gcdn-skycdn-it.akamaized.net/TACT/12221/web/master.m3u8?hdnts=st=1701861650~exp=1765449000~acl=/*~hmac=84c9f3f71e57b13c3a67afa8b29a8591ea9ed84bf786524399545d94be1ec04d"},
+        ]
+
+        function get_channel_data(channel) {
+            for (const link of links) {
+                if (link.channel === channel) {
+                    return link
+                }
+            }
+        }
+
+        function run_stream(url) {
+            if (Hls.isSupported()) {
+                var video = document.getElementById('video');
+                var hls = new Hls();
+                // Bind the M3U8 stream URL
+                hls.loadSource(url);
+                // Attach the HLS.js instance to the video element
+                hls.attachMedia(video);
+                // Start playing when ready
+                //hls.on(Hls.Events.MANIFEST_PARSED, function () { video.play(); });
+            }
+            // If HLS.js is not supported, fallback to native video (for browsers like Safari that support HLS)
+            else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+                video.src = url;
+                //video.addEventListener('loadedmetadata', function () {video.play();});
+            } else {
+                alert("Your browser doesn't support HLS streaming.");
+            }
+        }
+
+        function restore_volume(video) {
+            result = {}
+            cookies = document.cookie.split(";").map(i => {
+                cookie = i.split("=").map(i => i.trim())
+                result[cookie[0]] = cookie[1]
+            })
+            volumeCookie = result[`video-volume`]
+            volumeCookie = volumeCookie === undefined ? "1" : volumeCookie
+            mutedCookie = result[`video-muted`]
+            mutedCookie = mutedCookie === undefined ? "false" : mutedCookie
+            try {
+                video.volume = parseFloat(volumeCookie)
+            } catch (err) { }
+            try {
+                video.muted = result[`video-muted`] === "true"
+            } catch (err) { }
+        }
+
+        function save_volume_event(video) {
+            video.addEventListener("volumechange", function () {
+                document.cookie = `video-muted=${video.muted}`
+                document.cookie = `video-volume=${video.volume}`
+            })
+        }
+
+        function sync_volume(video) {
+            const sync_channel = new BroadcastChannel("sync-streaming-volume")
+            video.addEventListener("volumechange", function () {
+                sync_channel.postMessage({volume: video.volume, muted: video.muted})
+            })
+            sync_channel.onmessage = (event) => {
+                video.volume = event.data.volume
+                video.muted = event.data.muted
+            }
+        }
+
+        function add_shortcuts() {
+            document.addEventListener("keydown", function (event) {
+                const video = document.getElementById("video")
+                switch (event.key) {
+                    case "f": // Fullscreen
+                        if (DISPLAY) {
+                            if (!document.fullscreenElement) {
+                                video.requestFullscreen().catch(err => console.error(err))
+                            } else {
+                                document.exitFullscreen()
+                            }
+                        }
+                        break;
+                    case "k": // Play/Pause
+                        video.paused ? video.play() : video.pause()
+                        break
+                    case "m": // Mute/Unmute
+                        if (DISPLAY) {
+                            video.muted = !video.muted
+                        }
+                        break
+                    case "j": // Lower volume
+                        if (DISPLAY) {
+                            video.muted = false
+                            video.volume = Math.max(0, video.volume - 0.1)
+                        }
+                        break
+                    case "l": // Increade volume
+                        if (DISPLAY) {
+                            video.muted = false
+                            video.volume = Math.min(1, video.volume + 0.1)
+                        }
+                        break
+                }
+            });
+        }
+
+        function unhide_page() {
+            document.getElementById("no-js-text").style.display = "none"
+            document.getElementById("only-js-body").style.display = ""
+        }
+    </script>
+
+    <span id="no-js-text">Your browser does not support javascript!</span>
+    <div id="only-js-body" style="display: none;">
+        <div class="button-grid" id="buttons-container"></div>
+        <div id="video-container">
+            <video id="video" width="100%" controls>
+                Your browser does not support the video tag.
+            </video>
+        </div>
+    </div>
+
+    <script>
+        const channel = new URLSearchParams(window.location.search).get('channel');
+        const channelData = get_channel_data(channel)
+        const video_box = document.getElementById("video-container")
+        const buttons_box = document.getElementById("buttons-container")
+        const video = document.getElementById("video")
+
+        let DISPLAY = false
+        unhide_page()
+        add_shortcuts()
+
+        if (!channelData) {
+            DISPLAY = false
+            video_box.style.display = "none"
+            for (const link of links) {
+                buttons_box.innerHTML += `<a href="?channel=${link.channel}"><img src="../icons/tv_${link.channel}.png">${link.name}</a>`
+            }
+        } else {
+            DISPLAY = true
+            buttons_box.innerHTML += `<a href="?"><img src="../icons/streams.png">Home</a>`
+            document.title = channelData.name + " Stream"
+            run_stream(channelData.url)
+            restore_volume(video)
+            save_volume_event(video)
+            //sync_volume(video)
+        }
+
+    </script>
+</body>
