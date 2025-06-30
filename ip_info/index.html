@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>IP Location Map</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <link rel="icon" type="image/png" href="../icons/info.png" />
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            background-color: #1e1e1e;
+            color: #ddd;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        #container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        #data-container {
+            width: 300px;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #2a2a2a;
+            box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+            display: flex;
+            flex-direction: column;
+        }
+
+        #map {
+            flex: 1;
+            height: 100%;
+            background-color: #2e2e2e;
+            position: relative;
+        }
+
+        #theme-toggle,
+        #info-toggle {
+            position: absolute;
+            right: 10px;
+            z-index: 1000;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: rgba(68, 68, 68, 1);
+            color: #ddd;
+            font-weight: bold;
+            transition: all 0.3s;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #theme-toggle {
+            top: 10px;
+        }
+
+        #info-toggle {
+            top: 50px;
+        }
+
+        #theme-toggle:hover,
+        #info-toggle:hover {
+            background-color: rgba(102, 102, 102, 1);
+            transform: translateY(-1px);
+        }
+
+        .data-item {
+            margin-bottom: 10px;
+            padding: 10px;
+            background-color: #333;
+            border-radius: 6px;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+            border-left: 3px solid #4a6baf;
+        }
+
+        .data-key {
+            font-weight: bold;
+            color: #fff;
+        }
+
+        .data-value {
+            color: #ccc;
+            word-break: break-word;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 15px;
+            color: #f0f0f0;
+            padding-bottom: 8px;
+            border-bottom: 1px solid #444;
+        }
+
+        .leaflet-control-zoom {
+            background-color: #333 !important;
+            box-shadow: 0 0 8px rgba(0, 0, 0, 0.5);
+            border: none;
+            border-radius: 4px;
+        }
+
+        .leaflet-control-zoom a {
+            background-color: #444 !important;
+            color: #ddd !important;
+            border: none;
+            border-bottom: 1px solid #555 !important;
+        }
+
+        .leaflet-control-zoom a:first-child {
+            border-top-left-radius: 4px !important;
+            border-top-right-radius: 4px !important;
+        }
+
+        .leaflet-control-zoom a:last-child {
+            border-bottom-left-radius: 4px !important;
+            border-bottom-right-radius: 4px !important;
+            border-bottom: none !important;
+        }
+
+        .leaflet-control-zoom a:hover {
+            background-color: #555 !important;
+        }
+
+        .leaflet-control-attribution {
+            background-color: rgba(51, 51, 51, 0.8) !important;
+            color: #ccc !important;
+            border: none;
+            padding: 4px 8px;
+            font-size: 11px;
+        }
+
+        .leaflet-control-attribution a {
+            color: #8ab4f8 !important;
+            text-decoration: none;
+        }
+
+        .leaflet-control-attribution a:hover {
+            text-decoration: underline;
+        }
+
+        .leaflet-popup-content-wrapper {
+            background-color: #2a2a2a;
+            color: #ddd;
+            border-radius: 8px;
+            box-shadow: 0 3px 14px rgba(0, 0, 0, 0.6);
+            border: 1px solid #444;
+        }
+
+        .leaflet-popup-tip {
+            background-color: #2a2a2a;
+        }
+
+        .leaflet-popup-content {
+            font-family: Arial, sans-serif;
+            font-size: 14px;
+            margin: 10px;
+        }
+
+        #loading {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            font-size: 24px;
+            color: #fff;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                flex-direction: column;
+            }
+
+            #container {
+                flex-direction: column;
+            }
+
+            #data-container {
+                width: 100%;
+                height: 40vh;
+                box-shadow: none;
+                border-bottom: 2px solid #444;
+            }
+
+            #map {
+                height: 60vh;
+            }
+
+            #theme-toggle,
+            #info-toggle {
+                top: 10px;
+                right: 10px;
+                left: auto;
+                margin-top: 0;
+            }
+
+            #info-toggle {
+                top: 50px;
+            }
+        }
+
+        @media (max-width: 480px) {
+
+            #theme-toggle,
+            #info-toggle {
+                font-size: 12px;
+                padding: 6px 10px;
+            }
+
+            .data-item {
+                font-size: 13px;
+                padding: 8px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+
+            #data-container {
+                padding: 15px;
+            }
+
+            #loading {
+                font-size: 18px;
+            }
+        }
+
+        @media (max-width: 768px) and (orientation: landscape) {
+            #data-container {
+                height: 35vh;
+            }
+
+            #map {
+                height: 65vh;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div id="loading">Loading your IP location data...</div>
+
+    <div id="container">
+        <div id="data-container">
+            <h2>IP Location Data</h2>
+            <div id="data-display"></div>
+        </div>
+        <div id="map">
+            <button id="theme-toggle">Light Theme</button>
+            <button id="info-toggle">Hide Info</button>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        // Show loading screen initially
+        document.getElementById('loading').style.display = 'flex';
+
+        fetch('https://ipapi.co/json/')
+            .then(response => response.json())
+            .then(data => {
+                // Hide loading screen when data is loaded
+                document.getElementById('loading').style.display = 'none';
+
+                const dataDisplay = document.getElementById('data-display');
+                for (const [key, value] of Object.entries(data)) {
+                    const item = document.createElement('div');
+                    item.className = 'data-item';
+
+                    const keyElement = document.createElement('span');
+                    keyElement.className = 'data-key';
+                    keyElement.textContent = `${key}: `;
+
+                    const valueElement = document.createElement('span');
+                    valueElement.className = 'data-value';
+                    valueElement.textContent = value !== null && value !== undefined ? value.toString() : 'null';
+
+                    item.appendChild(keyElement);
+                    item.appendChild(valueElement);
+                    dataDisplay.appendChild(item);
+                }
+
+                const latitude = data.latitude || 0;
+                const longitude = data.longitude || 0;
+
+                const bounds = [
+                    [-90, -180],
+                    [90, 180]
+                ];
+
+                const map = L.map('map', {
+                    minZoom: 2,
+                    maxZoom: 16,
+                    maxBounds: bounds,
+                    maxBoundsViscosity: 1.0
+                }).setView([latitude, longitude], 13);
+
+                const darkLayer = L.tileLayer(
+                    'https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+                    attribution: 'Tiles &copy; Esri &mdash; Esri, DeLorme, NAVTEQ',
+                    minZoom: 2,
+                    maxZoom: 16,
+                });
+
+                const lightLayer = L.tileLayer(
+                    'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+                    minZoom: 2,
+                    maxZoom: 16,
+                });
+
+                let currentLayer = darkLayer;
+                currentLayer.addTo(map);
+
+                let marker, popupContent = "";
+
+                if (latitude && longitude) {
+                    popupContent = `<b>${data.city}, ${data.country_name}</b><br>${data.ip}`;
+                    marker = L.marker([latitude, longitude])
+                        .addTo(map)
+                        .bindPopup(popupContent)
+                        .openPopup();
+                }
+
+                const toggleBtn = document.getElementById('theme-toggle');
+                toggleBtn.addEventListener('click', () => {
+                    if (currentLayer === darkLayer) {
+                        map.removeLayer(darkLayer);
+                        lightLayer.addTo(map);
+                        currentLayer = lightLayer;
+                        toggleBtn.textContent = 'Dark Theme';
+                        document.body.style.backgroundColor = '#f0f0f0';
+                        document.body.style.color = '#333';
+                    } else {
+                        map.removeLayer(lightLayer);
+                        darkLayer.addTo(map);
+                        currentLayer = darkLayer;
+                        toggleBtn.textContent = 'Light Theme';
+                        document.body.style.backgroundColor = '#1e1e1e';
+                        document.body.style.color = '#ddd';
+                    }
+                    if (marker && popupContent) {
+                        setTimeout(() => {
+                            marker.openPopup();
+                        }, 100);
+                    }
+                });
+
+                const infoToggleBtn = document.getElementById('info-toggle');
+                const dataContainer = document.getElementById('data-container');
+                infoToggleBtn.addEventListener('click', () => {
+                    const isVisible = dataContainer.style.display !== 'none';
+                    dataContainer.style.display = isVisible ? 'none' : 'flex';
+                    infoToggleBtn.textContent = isVisible ? 'Show Info' : 'Hide Info';
+                    map.invalidateSize();
+                    setTimeout(() => {
+                        marker.openPopup();
+                    }, 100);
+                })
+                dataContainer.style.display = "none"
+                map.invalidateSize()
+                infoToggleBtn.textContent = "Show Info";
+                setTimeout(() => {
+                    marker.openPopup();
+                }, 100);
+
+                window.addEventListener('resize', () => {
+                    map.invalidateSize();
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching IP data:', error);
+                document.getElementById('loading').textContent = 'Error loading location data. Please try again later.';
+                document.getElementById('loading').style.color = '#ff6b6b';
+
+                const map = L.map('map').setView([0, 0], 2);
+                L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                }).addTo(map);
+            });
+    </script>
+</body>
+
+</html>
