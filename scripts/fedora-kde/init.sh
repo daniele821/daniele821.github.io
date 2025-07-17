@@ -1,5 +1,3 @@
-#!/bin/bash
-
 sudo -v &&
     echo -e "\e[1;33mWARNING: make sure to connect usb drive with passwords...\e[0m" &&
     sleep 10 &&
