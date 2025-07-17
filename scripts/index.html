@@ -56,37 +56,23 @@
         Run the following to do install operations:
     </p>
     <p class="name">- initialize system:</p>
-    <button type="button" onclick="copy('installer1')" style="display: none;">Copy</button>
-    <pre id="installer1" class="installers">
-        sudo -v &&
-        echo -e "\e[1;33mWARNING: make sure to connect usb drive with passwords...\e[0m" &&
-        sleep 10 &&
-        { systemd-inhibit --what=idle:sleep sleep 3600 & } &&
-        TMP_DIR="$(mktemp -d)" &&
-        ZIP_FILE="${TMP_DIR}/dotfiles.zip" &&
-        wget -O "$ZIP_FILE" https://github.com/daniele821/dotfiles/archive/refs/heads/fedora-kde.zip &&
-        unzip -d "$TMP_DIR" "$ZIP_FILE" &&
-        BRANCH= "${TMP_DIR}/dotfiles-fedora-kde/autosaver" restoreall &&
-        bash -lic "BRANCH= '${TMP_DIR}/dotfiles-fedora-kde/autosaver' run" &&
-        for i in {30..1}; do echo "rebooting in $i seconds... ctrl+c to skip"; sleep 1; done &&
-        reboot || echo -e "\e[1;31mfailed to download and run init scripts\e[m"
+    <button type="button" onclick="copy('init')">Copy</button>
+    <pre id="init" class="installers">
     </pre>
     <p class="name">- download git repos:</p>
-    <button type="button" onclick="copy('installer2')" style="display: none;">Copy</button>
-    <pre id="installer2" class="installers">
-        TMP_DIR="$(mktemp -d)" &&
-        git clone --branch fedora-kde --depth 1 "https://github.com/daniele821/dotfiles" "$TMP_DIR" &&
-        "$TMP_DIR/run/03_gitrepos.sh"
+    <button type="button" onclick="copy('repo')">Copy</button>
+    <pre id="repo" class="installers">
     </pre>
 </body>
 
 <script>
-    for (const button of document.getElementsByTagName("button")) {
-        button.style.display = ""
-    }
+    let branch="fedora-kde"
     function copy(elementId) {
         const copyText = document.getElementById(elementId).textContent.trim();
         navigator.clipboard.writeText(copyText)
+    }
+    for (const button of document.getElementsByClassName("installers")) {
+        fetch(`./${branch}/${button.id}.sh`)
     }
 </script>
 
