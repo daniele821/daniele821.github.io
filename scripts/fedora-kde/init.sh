@@ -1,5 +1,3 @@
-#!/bin/bash
-
 sudo -v && echo -e "\e[1;33mWARNING: make sure to connect usb drive with passwords...\e[0m" &&
     sleep 10 && { systemd-inhibit --what=idle:sleep sleep 3600 & } &&
     TMP_DIR="$(mktemp -d)" && ZIP_FILE="${TMP_DIR}/dotfiles.zip" &&
