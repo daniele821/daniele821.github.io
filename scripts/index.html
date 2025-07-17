@@ -96,7 +96,9 @@
                 .catch(error => console.log(error))
         }
     }
-    document.getElementById('branch').addEventListener('change', load_scripts)
+    const branchSelector = document.getElementById("branch")
+    if (branchSelector.options.length === 1) branchSelector.style.display = "none"
+    branchSelector.addEventListener('change', load_scripts)
     load_scripts()
 </script>
 
