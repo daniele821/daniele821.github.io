@@ -66,13 +66,15 @@
 </body>
 
 <script>
-    let branch="fedora-kde"
+    let branch = "fedora-kde"
     function copy(elementId) {
         const copyText = document.getElementById(elementId).textContent.trim();
         navigator.clipboard.writeText(copyText)
     }
     for (const button of document.getElementsByClassName("installers")) {
         fetch(`./${branch}/${button.id}.sh`)
+            .then(data => data.text())
+            .then(data => button.innerText = data)
     }
 </script>
 
