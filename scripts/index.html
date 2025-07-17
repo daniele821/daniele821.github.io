@@ -65,7 +65,7 @@
     <pre id="repo" class="installers">
     </pre>
     <select id="branch">
-        <option value="fedora-kde">fedora-kde</option>
+        <option value="fedora-kde" selected>fedora-kde</option>
     </select>
 </body>
 
@@ -75,13 +75,17 @@
         navigator.clipboard.writeText(copyText)
     }
     function load_scripts() {
-        branch=document.getElementById("branch").value
+        branch = document.getElementById("branch").value
         for (const button of document.getElementsByClassName("installers")) {
             fetch(`./${branch}/${button.id}.sh`)
-                .then(data => data.text())
+                .then(data => data.ok ? data.text() : `Error: missing data for this branch!`)
                 .then(data => button.innerText = data)
+                .catch(error => console.log(error))
         }
     }
+    document.getElementById('branch').addEventListener('change', function () {
+        load_scripts()
+    })
     load_scripts()
 </script>
 
