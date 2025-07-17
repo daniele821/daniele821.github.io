@@ -36,7 +36,8 @@
             border-radius: 4px;
         }
 
-        button {
+        button,
+        select {
             font-size: 1em;
             padding: 0.4em 1em;
             margin-bottom: 1em;
@@ -63,19 +64,25 @@
     <button type="button" onclick="copy('repo')">Copy</button>
     <pre id="repo" class="installers">
     </pre>
+    <select id="branch">
+        <option value="fedora-kde">fedora-kde</option>
+    </select>
 </body>
 
 <script>
-    let branch = "fedora-kde"
     function copy(elementId) {
         const copyText = document.getElementById(elementId).textContent.trim();
         navigator.clipboard.writeText(copyText)
     }
-    for (const button of document.getElementsByClassName("installers")) {
-        fetch(`./${branch}/${button.id}.sh`)
-            .then(data => data.text())
-            .then(data => button.innerText = data)
+    function load_scripts() {
+        branch=document.getElementById("branch").value
+        for (const button of document.getElementsByClassName("installers")) {
+            fetch(`./${branch}/${button.id}.sh`)
+                .then(data => data.text())
+                .then(data => button.innerText = data)
+        }
     }
+    load_scripts()
 </script>
 
 </html>
