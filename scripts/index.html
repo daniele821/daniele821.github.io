@@ -92,7 +92,7 @@
                         return `Error: missing data for this branch!`
                     }
                 })
-                .then(data => button.innerText = data)
+                .then(data => button.textContent = data)
                 .catch(error => console.log(error))
         }
     }
