@@ -7,5 +7,5 @@ sudo -v && echo -e "\e[1;33mWARNING: make sure to connect usb drive with passwor
     BRANCH="" "${TMP_DIR}/dotfiles-fedora-kde/autosaver" git &&
     SET_BRANCH="" /personal/repos/daniele821/dotfiles/autosaver &>/dev/null &&
     rm -rf ~/.config/nvim && ln -s /personal/repos/daniele821/nvim-config ~/.config/nvim &&
-    for i in {30..1}; do echo "rebooting in $i seconds... ctrl+c to skip" sleep 1; done &&
+    for i in {30..1}; do echo "rebooting in $i seconds... ctrl+c to skip"; sleep 1; done &&
     reboot || echo -e "\e[1;31mfailed to download and run init scripts\e[m"
