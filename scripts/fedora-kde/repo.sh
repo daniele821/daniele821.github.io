@@ -1,7 +1,4 @@
 TMP_DIR="$(mktemp -d)" &&
     git clone --branch fedora-kde --depth 1 "https://github.com/daniele821/dotfiles" "$TMP_DIR" &&
     BRANCH="" "$TMP_DIR/autosaver" git &&
-    SET_BRANCH="" /personal/repos/daniele821/dotfiles/autosaver &>/dev/null &&
-    rm -rf ~/.config/nvim && ln -s /personal/repos/daniele821/nvim-config ~/.config/nvim &&
-    rm -rf "$TMP_DIR"
-
+    rm -rf "$TMP_DIR" || echo -e "\e[1;31mfailed to download git repos\e[m"
