@@ -8,7 +8,8 @@ sudo -v &&
     unzip -d "$TMP_DIR" "$TMP_DIR/dotfiles.zip" &&
     BRANCH="" "${TMP_DIR}/dotfiles-fedora-kde/autosaver" run &&
     for i in {30..1}; do
-        echo "rebooting in $i seconds... ctrl+c to skip" && sleep 1
+        echo -en "\r\e[Krebooting in $i seconds... ctrl+c to skip"
+        sleep 1
     done &&
     tuned-adm profile powersave &&
     reboot || echo -e "\e[1;31mfailed to download and run init scripts\e[m"
