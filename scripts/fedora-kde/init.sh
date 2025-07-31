@@ -4,7 +4,7 @@ sudo -v &&
     TMP_DIR="$(mktemp -d)" &&
     wget -O "$TMP_DIR/dotfiles.zip" https://github.com/daniele821/dotfiles/archive/refs/heads/fedora-kde.zip &&
     unzip -d "$TMP_DIR" "$TMP_DIR/dotfiles.zip" &&
-    BRANCH="" "${TMP_DIR}/dotfiles-fedora-kde/autosaver" run &&
+    NO_CHECKS="" "${TMP_DIR}/dotfiles-fedora-kde/autosaver" run &&
     for i in {30..1}; do
         echo -en "\r\e[Krebooting in $i seconds... ctrl+c to skip"
         sleep 1
