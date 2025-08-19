@@ -78,7 +78,7 @@
     function load_scripts() {
         branch = document.getElementById("branch").value
         for (const button of document.getElementsByClassName("installers")) {
-            fetch(`./${branch}/${button.id}.sh`)
+            fetch(`https://raw.githubusercontent.com/daniele821/dotfiles/refs/heads/${branch}/init/init-script.sh`)
                 .then(data => {
                     if (data.ok) {
                         change_script_color("yellowgreen")
