@@ -54,18 +54,6 @@
         tuned-adm profile powersave &&
         reboot || echo -e "\e[1;31mfailed to download and run init scripts\e[m"
     </pre>
-    <p class="name">- run neovim container:</p>
-    <button type="button" onclick="copy('neovim-container')">Copy</button>
-    <pre id="neovim-container">
-        podman run -it --rm \
-        --detach-keys "" \
-        -e "TZ=$(timedatectl show --property=Timezone --value)" \
-        --security-opt label=type:container_runtime_t \
-        -v neovim-data:/data \
-        -w /data \
-        ghcr.io/daniele821/neovim
-        bash -il
-    </pre>
 </body>
 
 <script>
