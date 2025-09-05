@@ -28,19 +28,16 @@
             display: inline-block;
             padding-right: 10px;
             font-weight: bold;
-            color: green;
+            color: lightgreen;
         }
     </style>
 </head>
 
 
 <body>
-    <p>
-        Run the following to do install operations:
-    </p>
     <p class="name">- initialize fedora-kde system:</p>
     <button type="button" onclick="copy('init')">Copy</button>
-    <pre id="init" class="installers">
+    <pre id="init">
         sudo -v &&
         { while sleep 200; do sudo -v; done & } &&
         { systemd-inhibit --what=idle:sleep sleep 7200 & } &&
@@ -56,6 +53,18 @@
         done &&
         tuned-adm profile powersave &&
         reboot || echo -e "\e[1;31mfailed to download and run init scripts\e[m"
+    </pre>
+    <p class="name">- initialize fedora-kde system:</p>
+    <button type="button" onclick="copy('neovim-container')">Copy</button>
+    <pre id="neovim-container">
+        podman run -it --rm \
+        --detach-keys "" \
+        -e "TZ=$(timedatectl show --property=Timezone --value)" \
+        --security-opt label=type:container_runtime_t \
+        -v neovim-data:/data \
+        -w /data \
+        ghcr.io/daniele821/neovim
+        bash -il
     </pre>
 </body>
 
