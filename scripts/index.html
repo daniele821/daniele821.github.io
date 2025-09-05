@@ -19,34 +19,16 @@
             margin: 1rem;
         }
 
-        a:hover {
-            color: #004daa;
-        }
-
-        a {
-            color: #3391ff;
-        }
-
-        pre.installers {
-            color: yellowgreen;
-            margin: 0.5em 0;
-            padding: 0.5em;
-            font-size: 0.95em;
-            overflow-x: auto;
-            border-radius: 4px;
-        }
-
-        button,
-        select {
+        button {
             font-size: 1em;
             padding: 0.4em 1em;
             margin-bottom: 1em;
         }
-
         .name {
             display: inline-block;
             padding-right: 10px;
             font-weight: bold;
+            color: green;
         }
     </style>
 </head>
@@ -56,13 +38,25 @@
     <p>
         Run the following to do install operations:
     </p>
-    <p class="name">- initialize system:</p>
+    <p class="name">- initialize fedora-kde system:</p>
     <button type="button" onclick="copy('init')">Copy</button>
     <pre id="init" class="installers">
+        sudo -v &&
+        { while sleep 200; do sudo -v; done & } &&
+        { systemd-inhibit --what=idle:sleep sleep 7200 & } &&
+        tuned-adm profile throughput-performance &&
+        TMP_DIR="$(mktemp -d)" &&
+        wget -O "$TMP_DIR/dotfiles.zip" https://github.com/daniele821/dotfiles/archive/refs/heads/fedora-kde.zip &&
+        unzip -d "$TMP_DIR" "$TMP_DIR/dotfiles.zip" &&
+        "${TMP_DIR}/dotfiles-fedora-kde/autosaver" run &&
+        "${TMP_DIR}/dotfiles-fedora-kde/autosaver" restoreall &&
+        for i in {30..1}; do
+            echo -en "\r\e[Krebooting in $i seconds... ctrl+c to skip"
+            sleep 1
+        done &&
+        tuned-adm profile powersave &&
+        reboot || echo -e "\e[1;31mfailed to download and run init scripts\e[m"
     </pre>
-    <select id="branch">
-        <option value="fedora-kde" selected>fedora-kde</option>
-    </select>
 </body>
 
 <script>
@@ -70,32 +64,6 @@
         const copyText = document.getElementById(elementId).textContent.trim();
         navigator.clipboard.writeText(copyText)
     }
-    function change_script_color(color) {
-        document.querySelectorAll('pre.installers').forEach(element => {
-            element.style.color = color;
-        });
-    }
-    function load_scripts() {
-        branch = document.getElementById("branch").value
-        for (const button of document.getElementsByClassName("installers")) {
-            fetch(`https://raw.githubusercontent.com/daniele821/dotfiles/refs/heads/${branch}/other/init_script.sh`)
-                .then(data => {
-                    if (data.ok) {
-                        change_script_color("yellowgreen")
-                        return data.text()
-                    } else {
-                        change_script_color("red")
-                        return `Error: missing data for this branch!`
-                    }
-                })
-                .then(data => button.textContent = data)
-                .catch(error => console.log(error))
-        }
-    }
-    const branchSelector = document.getElementById("branch")
-    if (branchSelector.options.length === 1) branchSelector.style.display = "none"
-    branchSelector.addEventListener('change', load_scripts)
-    load_scripts()
 </script>
 
 </html>
